@@ -21,29 +21,27 @@
             <div class="box-header with-border"></div>
             <!-- /.box-header -->
             <div class="box-body">
-              <form action="functions/addSinais.php" method="POST" id="form_sinal" enctype="multipart/form-data">
+              <form action="functions/addResposta.php" method="POST" id="form_sinal" enctype="multipart/form-data">
                 <div class="form-group">
                   <label>Questão:</label>
                   <select required name="quest_id" class="form-control">
                     <option selected="selected">Selecione uma questão...</option>
                     <?php
-                      // include_once "functions/db-connect.php";
-                      // $sth = $db->prepare("SELECT * FROM categories ORDER BY nome ASC");
-                      // $sth->execute();
-                      // $category = $sth->fetchAll(PDO::FETCH_ASSOC);
-					  // for($i=0;$i < count($category); $i++){  
+                      include_once "functions/db-connect.php";
+                      $sth = $db->prepare("SELECT * FROM questions ORDER BY quest_id ASC");
+                      $sth->execute();
+                      $quest = $sth->fetchAll(PDO::FETCH_ASSOC);
+					            for($i=0;$i < count($quest); $i++){  
                     ?>
-                    <option required value="<?=$category[$i]['id'];?>"><?=$category[$i]['name'];?></option>
-                    <?php //} ?>						
+                    <option required value="<?=$quest[$i]['quest_id'];?>"><?=$quest[$i]['question'];?></option>
+                    <?php } ?>						
                   </select>
                 </div>
                 <div class="form-group">
                   <label>Resposta :</label>
                   <!-- /.box-header -->
                   <div class="box-body pad">
-                    <form>
                       <textarea class="textarea" name="response" placeholder="Digite a resposta da questão selecionada..." style="width: 100%; height: 80px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
-                    </form>
                   </div>
                 </div>
                 <div class="box-footer">

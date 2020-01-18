@@ -1,3 +1,6 @@
+<?php
+include_once "functions/db-connect.php";
+?>
 <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -21,7 +24,7 @@
             <div class="box-header with-border"></div>
             <!-- /.box-header -->
             <div class="box-body">
-              <form action="functions/addSinais.php" method="POST" id="form_sinal" enctype="multipart/form-data">
+              <form action="functions/addQuestao.php" method="POST" id="form_quest" enctype="multipart/form-data">
                 <div class="form-group ">
                   <label>Número da questão :</label>
                   <input type="number" required name="num_quest" class="form-control">
@@ -30,24 +33,52 @@
                   <label>Questão :</label>
                   <!-- /.box-header -->
                   <div class="box-body pad">
-                    <form>
-                      <textarea class="textarea" name="question" placeholder="Digite a questão..." style="width: 100%; height: 80px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
-                    </form>
+                    <textarea class="textarea" name="question" placeholder="Digite a questão..." style="width: 100%; height: 80px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
                   </div>
                 </div>
                 <div class="form-group">
-                  <label>Categoria da questão:</label>
-                  <select required name="category" class="form-control">
-                    <option selected="selected">Selecione uma categoria de questão...</option>
+                  <label>Tipo da questão:</label>
+                  <select required name="type" class="form-control">
+                    <option selected="selected">Selecione um tipo de questão...</option>
                     <?php
-                      // include_once "functions/db-connect.php";
-                      // $sth = $db->prepare("SELECT * FROM categories ORDER BY nome ASC");
-                      // $sth->execute();
-                      // $category = $sth->fetchAll(PDO::FETCH_ASSOC);
-							        // for($i=0;$i < count($category); $i++){  
+                      $sth = $db->prepare("SELECT * FROM type_questions ORDER BY type_desc ASC");
+                      $sth->execute();
+                      $category = $sth->fetchAll(PDO::FETCH_ASSOC);
+                      var_dump($category);
+							        for($i=0;$i < count($category); $i++){  
 							      ?>
-							      <option required value="<?=$category[$i]['id'];?>"><?=$category[$i]['name'];?></option>
-                    <?php //} ?>						
+							      <option required value="<?=$category[$i]['id'];?>"><?=$category[$i]['type_desc'];?></option>
+                    <?php } ?>						
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Business Unit:</label>
+                  <select required name="bu" class="form-control">
+                    <option selected="selected">Selecione uma business unit...</option>
+                    <?php
+                      $sth = $db->prepare("SELECT * FROM type_questions ORDER BY type_desc ASC");
+                      $sth->execute();
+                      $category = $sth->fetchAll(PDO::FETCH_ASSOC);
+                      var_dump($category);
+							        for($i=0;$i < count($category); $i++){  
+							      ?>
+							      <option required value="<?=$category[$i]['id'];?>"><?=$category[$i]['type_desc'];?></option>
+                    <?php } ?>						
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Categoria:</label>
+                  <select required name="category" class="form-control">
+                    <option selected="selected">Selecione uma categoria...</option>
+                    <?php
+                      $sth = $db->prepare("SELECT * FROM type_questions ORDER BY type_desc ASC");
+                      $sth->execute();
+                      $category = $sth->fetchAll(PDO::FETCH_ASSOC);
+                      var_dump($category);
+							        for($i=0;$i < count($category); $i++){  
+							      ?>
+							      <option required value="<?=$category[$i]['id'];?>"><?=$category[$i]['type_desc'];?></option>
+                    <?php } ?>						
                   </select>
                 </div>
                 <div class="box-footer">

@@ -156,16 +156,37 @@ error_reporting(E_ALL ^ E_NOTICE);
           </li>  
           <!-- Aqui termina Simples-->
           <!-- Aqui começa outro Simples-->    
-        
             <li class='treeview'>
             <a href=index.php?" . base64_encode('cadUsers') . ">
               <i class='fa fa-user-plus'></i> <span>CADASTRO DE USUÁRIOS</span>
             </a>
           </li>  
-    
+          <!-- Aqui termina Simples-->
+          <!-- Aqui começa outro Simples-->   
+          <li class='treeview'>
+            <a href=index.php?" . base64_encode('consultaQuestoes') . ">
+              <i class='fa fa-check-square-o'></i> <span>CONSULTA QUESTÕES</span>
+            </a>
+          </li>  
+          <!-- Aqui termina Simples-->
+          <!-- Aqui começa outro Simples-->   
+          <li class='treeview'>
+            <a href=index.php?" . base64_encode('consultaRespostas') . ">
+              <i class='fa fa-file-text-o'></i> <span>CONSULTA RESPOSTAS</span>
+            </a>
+          </li>  
+          <!-- Aqui termina Simples-->
+          <!-- Aqui começa outro Simples-->   
           <li class='treeview'>
             <a href=index.php?" . base64_encode('consultaUsers') . ">
-              <i class='fa fa-search'></i> <span>CONSULTA USUÁRIOS</span>
+              <i class='fa fa-users'></i> <span>CONSULTA USUÁRIOS</span>
+            </a>
+          </li>  
+          <!-- Aqui termina Simples-->
+          <!-- Aqui começa outro Simples-->   
+          <li class='treeview'>
+            <a href=index.php?" . base64_encode('configuracoes') . ">
+              <i class='fa fa-gears'></i> <span>CONFIGURAÇÕES</span>
             </a>
           </li>  
           <!-- Aqui termina Simples-->
@@ -192,10 +213,16 @@ switch ($option) {
     case "consultaUsers":
       require_once ('consultaUsers.php');
       break;
+    case "consultaQuestoes":
+        require_once ('consultaPerguntas.php');
+        break;
+    case "consultaRespostas":
+        require_once ('consultaRespostas.php');
+        break;
     case "editUsers":
       require_once ('formEditUsers.php');
       break;
-    case "editUsers":
+    case "welcome":
       require_once ('welcome.php');
       break;
     default:
@@ -243,6 +270,7 @@ switch ($option) {
 <script type="text/javascript" src="js/buttons.bootstrap.min.js"></script>
 <script type="text/javascript" src=" https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
 <!-- Input Mask -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
 <script src="plugins/jquery.maskMoney.js"></script>
 <!-- DateTime Picker -->
 <script src="plugins/datetimepicker-master/build/jquery.datetimepicker.full.js"></script>
@@ -256,6 +284,8 @@ switch ($option) {
 <!-- InputMask -->
 <script>
 $(document).ready(function() {
+  $('#birth-date').mask('00/00/0000');
+  $('#phone').mask('(00) 00000-0000');
   $(".textarea").wysihtml5();
   $('#passGen').pGenerator({
         'bind': 'click',
@@ -269,18 +299,18 @@ $(document).ready(function() {
 
 $('#delete_button').click(function() {
   $.ajax({
-     url: 'functions/deleteSinal.php',
+     url: 'functions/deleteQuestoes.php',
      type: 'POST',
      data: {id : "<?php echo $_GET['id']; ?>"}
   })
   .done(function(){
     alert('Deletado com sucesso!');
-    var redirect = "<?php echo 'index.php?' . base64_encode('consultaSinais'); ?>"
+    var redirect = "<?php echo 'index.php?' . base64_encode('consultaQuestoes'); ?>"
     window.location.href = redirect
   })
   .fail(function(){
-    alert('Falha ao deletar sinal!');
-    window.location.href = "<?php echo 'index.php?' . base64_encode('consultaSinais'); ?>"
+    alert('Falha ao deletar questao!');
+    window.location.href = "<?php echo 'index.php?' . base64_encode('consultaQuestoes'); ?>"
   })
 });
 $('#delete_buttonUser').click(function() {
@@ -300,45 +330,11 @@ $('#delete_buttonUser').click(function() {
 });
 
 
-  var controleSinais = $('#tableControleSinais').DataTable( {
+  var perguntas = $('#tablePerguntas').DataTable( {
       "ajax": {
-          url: 'functions/convertQueryConsultaSinais.php',
+          url: 'functions/convertQueryConsultaPerguntas.php',
           dataSrc: ''
-      },
-      "footerCallback": function ( row, data, start, end, display ) {
-            var api = this.api(), data;
-            // Remove the formatting to get integer data for summation
-            var intVal = function ( i ) {
-                return typeof i === 'string' ?
-                    i.replace(/[\$,]/g, '')*1 :
-                    typeof i === 'number' ?
-                        i : 0;
-            };
-            // Total over all pages
-            total = api
-                .column(8)
-                .data()
-                .reduce( function (a, b) {
-                    return intVal(a) + intVal(b);
-                }, 0 );
-            // Total over this page
-            pageTotal = api
-                .column( 8, { page: 'current'} )
-                .data()
-                .reduce( function (a, b) {
-                    return intVal(a) + intVal(b);
-                }, 0 );
-              if(total != 0)
-               var total = '$ '+ total.toFixed(2)
-              else {
-                total = 0
-               var total = '$ '+ total.toFixed(2)
-              }
-            // Update footer
-            $( api.column(7).footer() ).html(
-                total
-            );
-        },
+      },            
 
       "language": {
           "sEmptyTable": "Nenhum registro encontrado",
@@ -364,41 +360,23 @@ $('#delete_buttonUser').click(function() {
           }
       },
         "columns": [
-            { "data": "id"},
-            { "data": "nome" },
-            { "data": "data_sinal" },
-            { "data": "direcao" },
-            { "data": "valor" },
-            { "data": "expiracao" },
-            { "data": "gale" },
-            { "data": "result" },
-            { "data": "lucro_preju" },
-            { "data": null },
-            { "data": "action" }
+            { "data": "quest_id"},
+            { "data": "question" },
+            { "data": "type_desc" },
+            { "data": "category_desc" },
+            { "data": "bu_desc" },
+            { "data": null }
         ],
         "columnDefs": [ {
-            "targets": [9],
+            "targets": -1,
             "data": null,
-            "defaultContent": "<button class='btn-primary btn-flat'>Editar Sinal</button>"
-          },
-          {
-              "targets": [0],
-              "visible": false,
-              "searchable": false
+            "defaultContent": "<button class='btn-primary btn-flat'>Editar Pergunta</button>"
           },
           {
             'targets': -1, // column index (start from 0)
             'orderable': false
           }
         ],
-        
-        "createdRow": function( row, data, dataIndex){
-          if( data['result'] == 'Ganhou'){
-              $(row).addClass('success');
-          }
-          else if(data['result'] == 'Perdeu')
-            $(row).addClass('danger');
-        },
         "paging": false,
         "lengthChange": true,
         "searching": true,
@@ -408,58 +386,25 @@ $('#delete_buttonUser').click(function() {
         "info": true,
         "stateSave": true,
         "dom": 'Bflrtip',
-          "buttons": [
-            {
-              extend: 'excelHtml5',
-              exportOptions: {
-                  columns: [ 1,2,3,4,5,6,7 ]
-              }
-            },
-            {
-              extend: 'pdfHtml5',
-              exportOptions: {
-                  columns: [ 1,2,3,4,5,6,7 ]
-              }
+        "buttons": [
+          {
+            extend: 'excelHtml5',
+            exportOptions: {
+                columns: [ 1,2,3,4,5,6,7 ]
             }
-          ]
+          },
+          {
+            extend: 'pdfHtml5',
+            exportOptions: {
+                columns: [ 1,2,3,4,5,6,7 ]
+            }
+          }
+        ]
   });
-    // Check all 
-    $('#checkall').click(function(){
-        if($(this).is(':checked')){
-            $('.delete_check').prop('checked', true);
-        }else{
-            $('.delete_check').prop('checked', false);
-        }
-    });
 
-    // Delete record
-    $('#delete_record').click(function(){
-        var deleteids_arr = [];
-        // Read all checked checkboxes
-        $("input:checkbox[class=delete_check]:checked").each(function () {
-            deleteids_arr.push($(this).val());
-        });
-        
-        // Check checkbox checked or not
-        if(deleteids_arr.length > 0){
-
-            // Confirm alert
-            var confirmdelete = confirm("Você realmente deseja deletar os sinais selecionados?");
-            if (confirmdelete == true) {
-                $.ajax({
-                    url: 'functions/deleteSinal.php',
-                    type: 'post',
-                    data: {request: 2,deleteids_arr: deleteids_arr},
-                    success: function(response){
-                      controleSinais.ajax.reload();
-                    }
-                });
-            } 
-        }
-    });
-  $('#tableControleSinais tbody').on( 'click', 'button', function () {
-      var data = controleSinais.row( $(this).parents('tr') ).data();
-      window.location.href = "index.php?<?php echo base64_encode('editSinais'); ?>&id=" + data['id'];
+  $('#tablePerguntas tbody').on( 'click', 'button', function () {
+      var data = perguntas.row( $(this).parents('tr') ).data();
+      window.location.href = "index.php?<?php echo base64_encode('editPerguntas'); ?>&id=" + data['id'];
   });
 
   var listaUsers = $('#tableUsers').DataTable( {
@@ -492,16 +437,16 @@ $('#delete_buttonUser').click(function() {
   },
     "columns": [
         { "data": "id"},
-        { "data": "nome" },
-        { "data": "user_id" },
+        { "data": "name" },
+        { "data": "email" },
         { "data": "level" },
-        { "data": "ativo" },
+        { "data": "status" },
         { "data": null }
     ],
     "columnDefs": [ {
         "targets": -1,
         "data": null,
-        "defaultContent": "<button>Editar Usuário</button>"
+        "defaultContent": "<button class='btn-primary btn-flat'>Editar Usuário</button>"
         
     }
     ],
@@ -519,15 +464,9 @@ $('#delete_buttonUser').click(function() {
           window.location.href = 'index.php?<?php echo base64_encode('editUsers');?>&id=' + data['id'];
       });
 
-
-      $('#tableControleSinais tbody').on( 'click', 'button', function () {
-          var data = controleSinais.row( $(this).parents('tr') ).data();
-          window.location.href = "index.php?<?php echo base64_encode('editSinais'); ?>&id=" + data['id'];
-      });
-
-      $('#tableSinaisHist').DataTable( {
+     var respostas =  $('#tableRespostas').DataTable( {
       "ajax": {
-          url: 'functions/convertQueryConsultaSinaisHist.php',
+          url: 'functions/convertQueryConsultaRespostas.php',
           dataSrc: ''
       },
       "language": {
@@ -553,22 +492,18 @@ $('#delete_buttonUser').click(function() {
               "sSortDescending": ": Ordenar colunas de forma descendente"
           }
       },
-      "createdRow": function( row, data, dataIndex){
-          if( data['result'] == 'Ganhou'){
-              $(row).addClass('success');
-          }
-          else if(data['result'] == 'Perdeu')
-            $(row).addClass('danger');
-        },
+     
       "columns": [
             { "data": "id"},
-            { "data": "nome" },
-            { "data": "data_sinal" },
-            { "data": "direcao" },
-            { "data": "valor" },
-            { "data": "gale" },
-            { "data": "result" },
-            { "data": "lucro_preju" }
+            { "data": "quest_id" },
+            { "data": "response" },
+            { "data": null }
+        ],
+        "columnDefs": [ {
+        "targets": -1,
+        "data": null,
+        "defaultContent": "<button class='btn-primary btn-flat'>Editar Usuário</button>"
+        }
         ],
         "dom": 'Bflrtip',
         "buttons": [
@@ -593,6 +528,10 @@ $('#delete_buttonUser').click(function() {
       "responsive": true,
       "info": true,
     } );
+    $('#tableRespostas tbody').on( 'click', 'button', function () {
+      var data = respostas.row( $(this).parents('tr') ).data();
+      window.location.href = "index.php?<?php echo base64_encode('editPerguntas'); ?>&id=" + data['id'];
+  });
 } );
 </script>
 <script>

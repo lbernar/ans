@@ -43,6 +43,10 @@
                   <input type="text"  name="email" class="form-control" placeholder="jsilva@gmail.com">
                 </div>
                 <div class="form-group">
+                  <label>Celular :</label>
+                  <input type="text" name="phone" class="form-control" id="phone">
+                </div>
+                <div class="form-group">
                   <label>Senha :</label>
                   <input type="text"  name="password" class="form-control" id="password">
                   <button type="button" class="btn-flat btn btn-success" id="passGen">Gerar Senha</button> 

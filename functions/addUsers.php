@@ -1,11 +1,12 @@
     <?php
-include "db-connect.php";
+require "db-connect.php";
 
 $db->beginTransaction();
-$query = $db->prepare("INSERT INTO users(nome, user_id, ativo, level) VALUES (:name, :userId, :active, :level)");
+$query = $db->prepare("INSERT INTO users(name, email, password, level, blood_type) VALUES (:name, :email, :password, :level, :blood_type)");
 $query->bindValue(':name', $_POST["name"]);
-$query->bindValue(':userId', $_POST["userId"]);
-$query->bindValue(':active', $_POST["active"]); 
+$query->bindValue(':email', $_POST["email"]);
+$query->bindValue(':password', $_POST["password"]); 
+$query->bindValue(':blood_type', $_POST["blood_type"]); 
 $query->bindValue(':level', $_POST["level"]); 
 $sth = $query->execute();
 $db->commit();

@@ -14,7 +14,7 @@
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-		  Consulta Perguntas
+		  Consulta Questões
     </h1>
   </section>
   <!-- Main content -->
@@ -30,6 +30,7 @@
                   <th>ID</th>
                   <th>Enunciado</th>
                   <th>Tipo</th>
+                  <th>Categoria</th>
                   <th>B.U</th>
                   <th>Ação</th>
                 </tr>
