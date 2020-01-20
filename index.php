@@ -162,6 +162,20 @@ error_reporting(E_ALL ^ E_NOTICE);
             </a>
           </li>  
           <!-- Aqui termina Simples-->
+          <!-- Aqui começa outro Simples-->    
+            <li class='treeview'>
+            <a href=index.php?" . base64_encode('cadCategoria') . ">
+              <i class='fa fa-user-plus'></i> <span>CADASTRO DE CATEGORIAS</span>
+            </a>
+          </li>  
+          <!-- Aqui termina Simples-->
+          <!-- Aqui começa outro Simples-->    
+            <li class='treeview'>
+            <a href=index.php?" . base64_encode('cadBusinessUnit') . ">
+              <i class='fa fa-user-plus'></i> <span>CADASTRO DE B.U</span>
+            </a>
+          </li>  
+          <!-- Aqui termina Simples-->
           <!-- Aqui começa outro Simples-->   
           <li class='treeview'>
             <a href=index.php?" . base64_encode('consultaQuestoes') . ">
@@ -180,6 +194,20 @@ error_reporting(E_ALL ^ E_NOTICE);
           <li class='treeview'>
             <a href=index.php?" . base64_encode('consultaUsers') . ">
               <i class='fa fa-users'></i> <span>CONSULTA USUÁRIOS</span>
+            </a>
+          </li>  
+          <!-- Aqui termina Simples-->
+          <!-- Aqui começa outro Simples-->   
+          <li class='treeview'>
+            <a href=index.php?" . base64_encode('consultaCategorias') . ">
+              <i class='fa fa-check-square-o'></i> <span>CONSULTA CATEGORIAS</span>
+            </a>
+          </li>  
+          <!-- Aqui termina Simples-->
+          <!-- Aqui começa outro Simples-->   
+          <li class='treeview'>
+            <a href=index.php?" . base64_encode('consultaBusinessUnit') . ">
+              <i class='fa fa-check-square-o'></i> <span>CONSULTA B.U</span>
             </a>
           </li>  
           <!-- Aqui termina Simples-->
@@ -210,6 +238,12 @@ switch ($option) {
     case "cadUsers":
       require_once ('formCadUsers.php');
       break;
+    case "cadCategoria":
+      require_once ('formCadCategorias.php');
+      break;
+    case "cadBusinessUnit":
+      require_once ('formCadBusinessUnit.php');
+      break;
     case "consultaUsers":
       require_once ('consultaUsers.php');
       break;
@@ -219,11 +253,26 @@ switch ($option) {
     case "consultaRespostas":
         require_once ('consultaRespostas.php');
         break;
+    case "consultaCategorias":
+      require_once ('consultaCategorias.php');
+      break;
+    case "consultaBusinessUnit":
+      require_once ('consultaBusinessUnit.php');
+      break;
     case "editUsers":
       require_once ('formEditUsers.php');
       break;
+    case "editQuestao":
+        require_once ('formEditQuestao.php');
+        break;
+    case "editResposta":
+        require_once ('formEditResposta.php');
+        break;
     case "welcome":
       require_once ('welcome.php');
+      break;
+    case "cadConfig":
+      require_once ('formCadConfig.php');
       break;
     default:
       require_once('welcome.php');
@@ -299,7 +348,7 @@ $(document).ready(function() {
 
 $('#delete_button').click(function() {
   $.ajax({
-     url: 'functions/deleteQuestoes.php',
+     url: 'functions/deleteQuestao.php',
      type: 'POST',
      data: {id : "<?php echo $_GET['id']; ?>"}
   })
@@ -313,6 +362,58 @@ $('#delete_button').click(function() {
     window.location.href = "<?php echo 'index.php?' . base64_encode('consultaQuestoes'); ?>"
   })
 });
+
+$('#delete_button_resp').click(function() {
+  $.ajax({
+     url: 'functions/deleteResposta.php',
+     type: 'POST',
+     data: {id : "<?php echo $_GET['id']; ?>"}
+  })
+  .done(function(){
+    alert('Deletado com sucesso!');
+    var redirect = "<?php echo 'index.php?' . base64_encode('consultaRespostas'); ?>"
+    window.location.href = redirect
+  })
+  .fail(function(){
+    alert('Falha ao deletar resposta!');
+    window.location.href = "<?php echo 'index.php?' . base64_encode('consultaRespostas'); ?>"
+  })
+});
+
+$('#delete_button_cat').click(function() {
+  $.ajax({
+     url: 'functions/deleteCategoria.php',
+     type: 'POST',
+     data: {id : "<?php echo $_GET['id']; ?>"}
+  })
+  .done(function(){
+    alert('Deletado com sucesso!');
+    var redirect = "<?php echo 'index.php?' . base64_encode('consultaCategorias'); ?>"
+    window.location.href = redirect
+  })
+  .fail(function(){
+    alert('Falha ao deletar categoria!');
+    window.location.href = "<?php echo 'index.php?' . base64_encode('consultaCategorias'); ?>"
+  })
+});
+
+$('#delete_button_bu').click(function() {
+  $.ajax({
+     url: 'functions/deleteBusinessUnit.php',
+     type: 'POST',
+     data: {id : "<?php echo $_GET['id']; ?>"}
+  })
+  .done(function(){
+    alert('Deletado com sucesso!');
+    var redirect = "<?php echo 'index.php?' . base64_encode('consultaBusinessUnit'); ?>"
+    window.location.href = redirect
+  })
+  .fail(function(){
+    alert('Falha ao deletar business unit!');
+    window.location.href = "<?php echo 'index.php?' . base64_encode('consultaBusinessUnit'); ?>"
+  })
+});
+
 $('#delete_buttonUser').click(function() {
   $.ajax({
      url: 'functions/deleteUsers.php',
@@ -404,7 +505,7 @@ $('#delete_buttonUser').click(function() {
 
   $('#tablePerguntas tbody').on( 'click', 'button', function () {
       var data = perguntas.row( $(this).parents('tr') ).data();
-      window.location.href = "index.php?<?php echo base64_encode('editPerguntas'); ?>&id=" + data['id'];
+      window.location.href = "index.php?<?php echo base64_encode('editQuestao'); ?>&id=" + data['quest_id'];
   });
 
   var listaUsers = $('#tableUsers').DataTable( {
@@ -502,7 +603,7 @@ $('#delete_buttonUser').click(function() {
         "columnDefs": [ {
         "targets": -1,
         "data": null,
-        "defaultContent": "<button class='btn-primary btn-flat'>Editar Usuário</button>"
+        "defaultContent": "<button class='btn-primary btn-flat'>Editar Resposta</button>"
         }
         ],
         "dom": 'Bflrtip',
@@ -530,7 +631,145 @@ $('#delete_buttonUser').click(function() {
     } );
     $('#tableRespostas tbody').on( 'click', 'button', function () {
       var data = respostas.row( $(this).parents('tr') ).data();
-      window.location.href = "index.php?<?php echo base64_encode('editPerguntas'); ?>&id=" + data['id'];
+      window.location.href = "index.php?<?php echo base64_encode('editResposta'); ?>&id=" + data['id'];
+  });
+
+  var categorias =  $('#tableCategorias').DataTable( {
+      "ajax": {
+          url: 'functions/convertQueryConsultaCategorias.php',
+          dataSrc: ''
+      },
+      "language": {
+          "sEmptyTable": "Nenhum registro encontrado",
+          "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+          "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+          "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+          "sInfoPostFix": "",
+          "sInfoThousands": ".",
+          "sLengthMenu": "_MENU_ Resultados por página",
+          "sLoadingRecords": "Carregando...",
+          "sProcessing": "Processando...",
+          "sZeroRecords": "Nenhum registro encontrado",
+          "sSearch": "Pesquisar",
+          "oPaginate": {
+              "sNext": "Próximo",
+              "sPrevious": "Anterior",
+              "sFirst": "Primeiro",
+              "sLast": "Último"
+          },
+          "oAria": {
+              "sSortAscending": ": Ordenar colunas de forma ascendente",
+              "sSortDescending": ": Ordenar colunas de forma descendente"
+          }
+      },
+     
+      "columns": [
+            { "data": "id"},
+            { "data": "class" },
+            { "data": "sub_class" },
+            { "data": null }
+        ],
+        "columnDefs": [ {
+        "targets": -1,
+        "data": null,
+        "defaultContent": "<button class='btn-primary btn-flat'>Editar Categoria</button>"
+        }
+        ],
+        "dom": 'Bflrtip',
+        "buttons": [
+          {
+            extend: 'excelHtml5',
+            exportOptions: {
+                columns: [ 1,2,3,4,5,6,7 ]
+            }
+          },
+          {
+            extend: 'pdfHtml5',
+            exportOptions: {
+                columns: [ 1,2,3,4,5,6,7 ]
+            }
+          }
+        ],
+      "paging": true,
+      "lengthChange": true,
+      "searching": true,
+      "ordering": true,
+      "autoWidth": true,
+      "responsive": true,
+      "info": true,
+    } );
+    $('#tableCategorias tbody').on( 'click', 'button', function () {
+      var data = categorias.row( $(this).parents('tr') ).data();
+      window.location.href = "index.php?<?php echo base64_encode('editCategoria'); ?>&id=" + data['id'];
+  });
+
+  var businessUnit =  $('#tableBU').DataTable( {
+      "ajax": {
+          url: 'functions/convertQueryConsultaBusinessUnit.php',
+          dataSrc: ''
+      },
+      "language": {
+          "sEmptyTable": "Nenhum registro encontrado",
+          "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+          "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+          "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+          "sInfoPostFix": "",
+          "sInfoThousands": ".",
+          "sLengthMenu": "_MENU_ Resultados por página",
+          "sLoadingRecords": "Carregando...",
+          "sProcessing": "Processando...",
+          "sZeroRecords": "Nenhum registro encontrado",
+          "sSearch": "Pesquisar",
+          "oPaginate": {
+              "sNext": "Próximo",
+              "sPrevious": "Anterior",
+              "sFirst": "Primeiro",
+              "sLast": "Último"
+          },
+          "oAria": {
+              "sSortAscending": ": Ordenar colunas de forma ascendente",
+              "sSortDescending": ": Ordenar colunas de forma descendente"
+          }
+      },
+     
+      "columns": [
+            { "data": "id"},
+            { "data": "title" },
+            { "data": "total" },
+            { "data": null }
+        ],
+        "columnDefs": [ {
+        "targets": -1,
+        "data": null,
+        "defaultContent": "<button class='btn-primary btn-flat'>Editar B.U</button>"
+        }
+        ],
+        "dom": 'Bflrtip',
+        "buttons": [
+          {
+            extend: 'excelHtml5',
+            exportOptions: {
+                columns: [ 1,2,3,4,5,6,7 ]
+            }
+          },
+          {
+            extend: 'pdfHtml5',
+            exportOptions: {
+                columns: [ 1,2,3,4,5,6,7 ]
+            }
+          }
+        ],
+      "paging": true,
+      "lengthChange": true,
+      "searching": true,
+      "ordering": true,
+      "autoWidth": true,
+      "responsive": true,
+      "info": true,
+    } );
+    $('#tableBU tbody').on( 'click', 'button', function () {
+      var data = businessUnit.row( $(this).parents('tr') ).data();
+      window.location.href = "index.php?<?php echo base64_encode('editBusinessUnit'); ?>&id=" + data['id'];
   });
 } );
 </script>

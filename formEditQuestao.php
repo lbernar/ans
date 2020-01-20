@@ -2,13 +2,18 @@
 $id = $_GET['id'];
 include "functions/db-connect.php";
 
-// $db->beginTransaction();
-// // Define your SQL statement //
-// $query = $db->prepare("SELECT sinal.*, moeda.nome FROM sinal AS sinal INNER JOIN moedas AS moeda ON moeda.id = sinal.moeda_id WHERE sinal.id = :id");
-// $query->bindValue(':id', $id);
-// $query->execute();
-// $sql = $query->fetchAll(PDO::FETCH_ASSOC)[0];
-// $db->commit();
+$db->beginTransaction();
+// Define your SQL statement //
+$query = $db->prepare("SELECT quest.id, quest.quest_id, quest.question, tq.type_desc, tq.id AS type_id, cat.category_desc, cat.id AS category_id,  bu.id AS bu_id, bu.bu_desc 
+FROM questions AS quest 
+INNER JOIN type_questions AS tq ON tq.id = quest.type_id
+INNER JOIN categories AS cat ON cat.id = quest.category_id 
+INNER JOIN business_unit AS bu ON quest.bu_id = bu.id
+ WHERE quest.quest_id = :id");
+$query->bindValue(':id', $id);
+$query->execute();
+$sql = $query->fetchAll(PDO::FETCH_ASSOC)[0];
+$db->commit();
 ?>
 <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -41,33 +46,60 @@ include "functions/db-connect.php";
               <input type='hidden' name='id' value="<?=$sql['id']?>">
                 <div class="form-group">
                   <label>Número da questão :</label>
-                  <input type="text" required name="num_quest" class="form-control" value="<?=$sql['num_quest']?>">
+                  <input type="number" required name="num_quest" class="form-control" value="<?php echo str_replace('Q','',$sql['quest_id']); ?>">
                 </div>
                 <div class="form-group">
                   <label>Questão :</label>
                   <!-- /.box-header -->
                   <div class="box-body pad">
-                    <form>
-                      <textarea class="textarea" name="question" placeholder="Digite a questão..." style="width: 100%; height: 80px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">
-                        <?=$sql['question']?>
-                      </textarea>
-                    </form>
+                    <textarea class="textarea" name="question" placeholder="Digite a questão..." style="width: 100%; height: 80px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">
+                      <?=$sql['question']?>
+                    </textarea>
                   </div>
                 </div>
                 <div class="form-group">
-                  <label>Categoria da questão:</label>
-                  <select required name="category" class="form-control">
-                    <option selected="selected" value="<?=$sql['moeda_id'];?>"><?=$sql['nome']?></option>
+                  <label>Tipo da questão:</label>
+                  <select required name="type" class="form-control">
+                    <option required selected="selected" value="<?=$sql['type_id'];?>"><?=$sql['type_desc']?></option>
                     <option>--------------------------------------------------------------------------</option>
                     <?php
-                      // include_once "functions/db-connect.php";
-                      // $sth = $db->prepare("SELECT * FROM categories ORDER BY nome ASC");
-                      // $sth->execute();
-                      // $category = $sth->fetchAll(PDO::FETCH_ASSOC);
-					  // for($i=0;$i < count($category); $i++){  
-					?>
-					<option required value="<?=$category[$i]['id'];?>"><?=$category[$i]['name'];?></option>
-                    <?php //} ?>						
+                      $sth = $db->prepare("SELECT * FROM type_questions ORDER BY type_desc ASC");
+                      $sth->execute();
+                      $type = $sth->fetchAll(PDO::FETCH_ASSOC);
+							        for($i=0;$i < count($type); $i++){  
+							      ?>
+							      <option required value="<?=$type[$i]['id'];?>"><?=$type[$i]['type_desc'];?></option>
+                    <?php } ?>						
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Business Unit:</label>
+                  <select required name="bu" class="form-control">
+                    <option required value="<?=$sql['bu_id']?>" selected="selected"><?=$sql['bu_desc']?></option>
+                    <option>--------------------------------------------------------------------------</option>
+                    <?php
+                      $sth = $db->prepare("SELECT * FROM business_unit ORDER BY bu_desc ASC");
+                      $sth->execute();
+                      $bu = $sth->fetchAll(PDO::FETCH_ASSOC);
+							        for($i=0;$i < count($bu); $i++){  
+							      ?>
+							      <option required value="<?=$bu[$i]['id'];?>"><?=$bu[$i]['bu_desc'];?></option>
+                    <?php } ?>						
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Categoria:</label>
+                  <select required name="category" class="form-control">
+                    <option required value="<?=$sql['category_id']?>" selected="selected"><?=$sql['category_desc']?></option>
+                    <option>--------------------------------------------------------------------------</option>
+                    <?php
+                      $sth = $db->prepare("SELECT * FROM categories ORDER BY category_desc ASC");
+                      $sth->execute();
+                      $category = $sth->fetchAll(PDO::FETCH_ASSOC);
+							        for($i=0;$i < count($category); $i++){  
+							      ?>
+							      <option required value="<?=$category[$i]['id'];?>"><?=$category[$i]['category_desc'];?></option>
+                    <?php } ?>						
                   </select>
                 </div>
                 <!-- /.form group -->

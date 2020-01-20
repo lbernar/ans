@@ -41,16 +41,16 @@ CREATE TABLE `answers` (
 DROP TABLE IF EXISTS `categories`;
 CREATE TABLE `categories` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
-`category_type` char(1) DEFAULT NULL,
-`category_desc` varchar(255) DEFAULT NULL,
+`class` varchar(255) DEFAULT NULL,
+`sub_class` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 )CHARACTER SET 'UTF8';
 
 DROP TABLE IF EXISTS `business_unit`;
 CREATE TABLE `business_unit` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
-`category_type` char(1) DEFAULT NULL,
-`bu_desc` varchar(255) DEFAULT NULL,
+`title` char(1) DEFAULT NULL,
+`total` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 )CHARACTER SET 'UTF8';
 
@@ -77,7 +77,7 @@ CREATE TABLE `results` (
 DROP TABLE IF EXISTS `config`;
 CREATE TABLE `config` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
-`ini_text` LONGTEXT,
-`final_text` LONGTEXT,
+`ini_msg` LONGTEXT,
+`final_msg` LONGTEXT,
   PRIMARY KEY (`id`)
 )CHARACTER SET 'UTF8';
