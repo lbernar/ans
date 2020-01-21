@@ -9,7 +9,7 @@ if($_SESSION['userProfile']['level'] == 0) {
 include "functions/db-connect.php";
 $db->beginTransaction();
 // Define your SQL statement //
-$query = $db->prepare("SELECT ini_msg, final_msg FROM config");
+$query = $db->prepare("SELECT id, ini_msg, final_msg FROM config");
 $query->execute();
 $sql = $query->fetchAll(PDO::FETCH_ASSOC)[0];
 $db->commit();
@@ -37,7 +37,8 @@ $db->commit();
             <div class="box-header with-border"></div>
             <!-- /.box-header -->
             <div class="box-body">
-              <form action="functions/UpdateConfig.php" method="POST" id="form_config" enctype="multipart/form-data">
+              <form action="functions/updateConfig.php" method="POST" id="form_config" enctype="multipart/form-data">
+              <input type='hidden' name='id' value="<?=$sql['id']?>">
                 <div class="form-group">
                   <label>Mensagem Inicial :</label>
                   <!-- /.box-header -->

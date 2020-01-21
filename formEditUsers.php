@@ -49,22 +49,20 @@ $db->commit();
                 <!-- text input -->
                 <div class="form-group">
                   <label>Nome :</label>
-                  <input type="text" required name="name" class="form-control" value="<?=$sql['nome']?>">
+                  <input type="text" required name="name" class="form-control" value="<?=$sql['name']?>">
                 </div>
                 <div class="form-group">
-                  <label>E-mail IQ Option ::</label>
-                  <input type="text"  name="userId" class="form-control" value="<?=$sql['user_id']?>">
+                  <label>E-mail :</label>
+                  <input type="text"  name="email" class="form-control" value="<?=$sql['email']?>">
                 </div>
                 <div class="form-group">
-                  <label>Usuário Ativo :</label>
-                  <div class="custom-control custom-radio">
-                    <input type="radio" class="custom-control-input" value=1 <?php if($sql['ativo'] == 1){echo "checked=checked";}?> name="active">
-                    <label class="custom-control-label" for="defaultGroupExample3">Sim</label>
-                  </div>
-                  <div class="custom-control custom-radio">
-                    <input type="radio" class="custom-control-input" value=0 <?php if($sql['ativo'] == 0){echo "checked=checked";}?> name="active">
-                    <label class="custom-control-label" for="defaultGroupExample3">Não</label>
-                  </div>
+                  <label>Celular :</label>
+                  <input type="text" name="phone" value="<?=$sql['phone']?>"class="form-control" id="phone">
+                </div>
+                <div class="form-group">
+                  <label>Senha :</label>
+                  <input type="text"  name="password" value="<?=$sql['password']?>" class="form-control" id="password">
+                  <button type="button" class="btn-flat btn btn-success" id="passGen">Gerar Senha</button> 
                 </div>
                 <div class="form-group">
                   <label>Nível de Acesso :</label>

@@ -1,13 +1,12 @@
 <?php
 include "db-connect.php";
-$sth = $db->prepare("INSERT INTO bu (title, total) 
-VALUES (:title, :total)");
+$sth = $db->prepare("INSERT INTO business_unit (title) 
+VALUES (:title)");
 
 //faço o bind das váriaveis.
   $sth->bindValue(':title', $_POST['title']);
-  $sth->bindValue(':total', $_POST['total']);
  //Verifico se o registro foi inserido com sucesso ao mesmo tempo em que executa a query
   $sth->execute();
-$option = base64_encode('consultaBusinessUnit');
+$option = base64_encode('cadBusinessUnit');
 header("Location: ../index.php?$option"); 
 ?>

@@ -11,6 +11,6 @@ $alternative_id = 'A' . $_POST['alternative_id'];
   $sth->bindValue(':response', $_POST['response']);
  //Verifico se o registro foi inserido com sucesso ao mesmo tempo em que executa a query
   $sth->execute();
-$option = base64_encode('consultaRespostas');
+$option = base64_encode('cadRespostas');
 header("Location: ../index.php?$option"); 
 ?>

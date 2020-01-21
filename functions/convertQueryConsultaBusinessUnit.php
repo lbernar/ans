@@ -6,7 +6,7 @@
 include "db-connect.php";
 $db->beginTransaction();
 // Define your SQL statement //
-$query = $db->query("SELECT id, title FROM business_unit");
+$query = $db->prepare("SELECT id, title FROM business_unit");
 $query->execute();
 $query = $query->fetchAll(PDO::FETCH_ASSOC);
 

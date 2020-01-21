@@ -6,7 +6,7 @@
 include "db-connect.php";
 $db->beginTransaction();
 // Define your SQL statement //
-$query = $db->query("SELECT id, class, sub_class FROM categories");
+$query = $db->prepare("SELECT id, class, sub_class FROM categories");
 $query->execute();
 $query = $query->fetchAll(PDO::FETCH_ASSOC);
 

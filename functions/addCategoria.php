@@ -9,6 +9,6 @@ VALUES (:class, :sub_class)");
   $sth->bindValue(':sub_class', $_POST['sub_class']);
  //Verifico se o registro foi inserido com sucesso ao mesmo tempo em que executa a query
   $sth->execute();
-$option = base64_encode('consultaCategorias');
+$option = base64_encode('cadCategorias');
 header("Location: ../index.php?$option"); 
 ?>

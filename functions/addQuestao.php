@@ -14,6 +14,6 @@ $question_id = 'Q' . $_POST['num_quest'];
  //Verifico se o registro foi inserido com sucesso ao mesmo tempo em que executa a query
   $sth->execute();
 
-$option = base64_encode('consultaQuestoes');
+$option = base64_encode('cadQuestoes');
 header("Location: ../index.php?$option"); 
 ?>
