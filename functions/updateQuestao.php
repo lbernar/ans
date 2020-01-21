@@ -2,7 +2,6 @@
 include "db-connect.php";
 $id = $_POST['id'];
 $question_id = 'Q' . $_POST['num_quest'];
-var_dump($_POST);
 $db->beginTransaction();
 $sth = $db->prepare("UPDATE questions SET quest_id = :quest_id, question = :question, type_id = :type_id, bu_id = :bu_id, category_id = :category_id WHERE id = :id");
 //faço o bind das váriaveis.

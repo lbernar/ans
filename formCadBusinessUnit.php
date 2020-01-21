@@ -47,6 +47,28 @@ include_once "functions/db-connect.php";
       </div>
       <!-- /.row -->
     </section>
+    <section class="content-header">
+    <!-- row -->
+    <div  class="row">
+      <div class="col-md-12 ">
+        <div class="box">
+          <div class="box-body">
+            <table id="tableBU" class="table table-striped table-bordered table-condensed" cellspacing="0" width="100%">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Título</th>
+                  <th>Total</th>
+                  <th>Ação</th>
+                </tr>
+              </thead>
+            </table>
+          </div>
+        </div> 
+      </div> 
+    </div>  
+    <!-- /.row -->
+  </section>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->

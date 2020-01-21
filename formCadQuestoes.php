@@ -27,7 +27,7 @@ include_once "functions/db-connect.php";
               <form action="functions/addQuestao.php" method="POST" id="form_quest" enctype="multipart/form-data">
                 <div class="form-group ">
                   <label>Número da questão :</label>
-                  <input type="number" required name="num_quest" class="form-control">
+                  <input type="number" required name="num_quest" onkeypress="return isNumber(event)" class="form-control">
                 </div>
                 <div class="form-group">
                   <label>Questão :</label>
@@ -44,7 +44,6 @@ include_once "functions/db-connect.php";
                       $sth = $db->prepare("SELECT * FROM type_questions ORDER BY type_desc ASC");
                       $sth->execute();
                       $category = $sth->fetchAll(PDO::FETCH_ASSOC);
-                      var_dump($category);
 							        for($i=0;$i < count($category); $i++){  
 							      ?>
 							      <option required value="<?=$category[$i]['id'];?>"><?=$category[$i]['type_desc'];?></option>
@@ -59,7 +58,6 @@ include_once "functions/db-connect.php";
                       $sth = $db->prepare("SELECT * FROM type_questions ORDER BY type_desc ASC");
                       $sth->execute();
                       $category = $sth->fetchAll(PDO::FETCH_ASSOC);
-                      var_dump($category);
 							        for($i=0;$i < count($category); $i++){  
 							      ?>
 							      <option required value="<?=$category[$i]['id'];?>"><?=$category[$i]['type_desc'];?></option>
@@ -74,7 +72,6 @@ include_once "functions/db-connect.php";
                       $sth = $db->prepare("SELECT * FROM type_questions ORDER BY type_desc ASC");
                       $sth->execute();
                       $category = $sth->fetchAll(PDO::FETCH_ASSOC);
-                      var_dump($category);
 							        for($i=0;$i < count($category); $i++){  
 							      ?>
 							      <option required value="<?=$category[$i]['id'];?>"><?=$category[$i]['type_desc'];?></option>
@@ -95,6 +92,30 @@ include_once "functions/db-connect.php";
       </div>
       <!-- /.row -->
     </section>
+    <section class="content-header">
+    <!-- row -->
+    <div  class="row">
+      <div class="col-md-12 ">
+        <div class="box">
+          <div class="box-body">
+            <table id="tableQuestoes" class="table table-striped table-bordered table-condensed" cellspacing="0" width="100%">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Enunciado</th>
+                  <th>Tipo</th>
+                  <th>Categoria</th>
+                  <th>B.U</th>
+                  <th>Ação</th>
+                </tr>
+              </thead>
+            </table>
+          </div>
+        </div> 
+      </div> 
+    </div>  
+    <!-- /.row -->
+  </section>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->

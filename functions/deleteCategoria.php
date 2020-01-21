@@ -8,6 +8,6 @@ $sth = $db->prepare("DELETE FROM answers WHERE id = :id");
  //Verifico se o registro foi inserido com sucesso ao mesmo tempo em que executa a query
   $sth->execute();
   $db->commit();
-  $option = base64_encode('consultaRespostas');
+  $option = base64_encode('cadRespostas');
   header("Location: ../index.php?$option"); 
 ?>

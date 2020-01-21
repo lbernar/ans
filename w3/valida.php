@@ -4,8 +4,8 @@ include_once "../functions/db-connect.php";
 session_start();
 $userInfo = getUsers($_POST['email'], $db);
 
-if(isUserRegistered($_POST['iduser'], $db)) {
-  if($_POST['iduser'] == $userInfo['result']['email'] && md5($_POST['pass']) == $userInfo['password'] ){
+if(isUserRegistered($_POST['email'], $db)) {
+  if($_POST['email'] == $userInfo['email'] && $_POST['pass'] == $userInfo['password'] ){
     $_SESSION['userProfile']['user_id'] = $userInfo['id'];
     $_SESSION['userProfile']['email'] = $userInfo['email'];
     $_SESSION['userProfile']['level'] = $userInfo['level'];
@@ -32,9 +32,9 @@ function isUserRegistered($email,$db) {
 
   return false;
 }
-function getUsers($user_id, $db) {
-  $query = $db->prepare("SELECT id, email, password, level FROM users WHERE user_id = :user_id");
-  $query->bindValue(':user_id', $user_id);
+function getUsers($email, $db) {
+  $query = $db->prepare("SELECT id, email, password, level FROM users WHERE email = :email");
+  $query->bindValue(':email', $email);
   $query->execute();
   $sql = $query->fetchAll(PDO::FETCH_ASSOC)[0];
   return $sql;

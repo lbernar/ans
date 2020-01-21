@@ -9,7 +9,7 @@ error_reporting(E_ALL ^ E_NOTICE);
 
 #------------------------------------------------------------------
 # Session protected
-//if (!isset($_SESSION['user_id'])) { Header("Location: login-page.php"); exit; }
+if (!isset($_SESSION['userProfile']['user_id'])) { header("Location: login-page.php"); exit; }
 #------------------------------------------------------------------
 ?>
 <!DOCTYPE html>
@@ -17,11 +17,9 @@ error_reporting(E_ALL ^ E_NOTICE);
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>QuestionaME</title>
+  <title>ANS</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <!--FavIcon Tetris-->
-  <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
   <!-- Select2 -->
   <link rel="stylesheet" href="css/select2.min.css">
   <!-- Bootstrap 3.3.6 -->
@@ -93,7 +91,7 @@ error_reporting(E_ALL ^ E_NOTICE);
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>ANS</b></span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>Análise Neurossistêmica</b></span>
+      <span class="logo-lg"><b>ANS</b></span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
@@ -138,11 +136,19 @@ error_reporting(E_ALL ^ E_NOTICE);
     <section class="sidebar">
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu">
-        <li class="header">MENU PRINCIPAL</li>        
-          <!-- Aqui começa outro Simples-->  
-          <?php 
-          if($_SESSION['level'] == 0) {
+      <?php 
+          if($_SESSION['userProfile']['level'] == 1) {
             echo "  
+        <li class='header'>MENU PRINCIPAL</li>        
+          <!-- Aqui começa outro Simples-->  
+      
+            <!-- Aqui começa outro Simples-->    
+            <li class='treeview'>
+            <a href=index.php?" . base64_encode('cadUsers') . ">
+              <i class='fa fa-user-plus'></i> <span>CADASTRO DE USUÁRIOS</span>
+            </a>
+          </li>  
+          <!-- Aqui termina Simples-->
           <li class='treeview'>
             <a href=index.php?" . base64_encode('cadQuest') . ">
               <i class='fa fa-question-circle'></i> <span>CADASTRO DE QUESTÕES</span>
@@ -150,70 +156,28 @@ error_reporting(E_ALL ^ E_NOTICE);
           </li>  
           <!-- Aqui começa outro Simples-->    
           <li class='treeview'>
-            <a href=index.php?" . base64_encode('cadResp') . ">
-              <i class='fa fa-pencil-square-o'></i> <span>CADASTRO DE RESPOSTAS</span>
+            <a href=index.php?" . base64_encode('cadAltern') . ">
+              <i class='fa fa-pencil-square-o'></i> <span>CADASTRO DE ALTERNATIVAS</span>
             </a>
           </li>  
           <!-- Aqui termina Simples-->
-          <!-- Aqui começa outro Simples-->    
-            <li class='treeview'>
-            <a href=index.php?" . base64_encode('cadUsers') . ">
-              <i class='fa fa-user-plus'></i> <span>CADASTRO DE USUÁRIOS</span>
-            </a>
-          </li>  
-          <!-- Aqui termina Simples-->
+          
           <!-- Aqui começa outro Simples-->    
             <li class='treeview'>
             <a href=index.php?" . base64_encode('cadCategoria') . ">
-              <i class='fa fa-user-plus'></i> <span>CADASTRO DE CATEGORIAS</span>
+              <i class='fa fa-list-alt'></i> <span>CADASTRO DE CATEGORIAS</span>
             </a>
           </li>  
           <!-- Aqui termina Simples-->
           <!-- Aqui começa outro Simples-->    
             <li class='treeview'>
             <a href=index.php?" . base64_encode('cadBusinessUnit') . ">
-              <i class='fa fa-user-plus'></i> <span>CADASTRO DE B.U</span>
+              <i class='fa fa-plus-square'></i> <span>CADASTRO DE B.U</span>
             </a>
           </li>  
-          <!-- Aqui termina Simples-->
           <!-- Aqui começa outro Simples-->   
           <li class='treeview'>
-            <a href=index.php?" . base64_encode('consultaQuestoes') . ">
-              <i class='fa fa-check-square-o'></i> <span>CONSULTA QUESTÕES</span>
-            </a>
-          </li>  
-          <!-- Aqui termina Simples-->
-          <!-- Aqui começa outro Simples-->   
-          <li class='treeview'>
-            <a href=index.php?" . base64_encode('consultaRespostas') . ">
-              <i class='fa fa-file-text-o'></i> <span>CONSULTA RESPOSTAS</span>
-            </a>
-          </li>  
-          <!-- Aqui termina Simples-->
-          <!-- Aqui começa outro Simples-->   
-          <li class='treeview'>
-            <a href=index.php?" . base64_encode('consultaUsers') . ">
-              <i class='fa fa-users'></i> <span>CONSULTA USUÁRIOS</span>
-            </a>
-          </li>  
-          <!-- Aqui termina Simples-->
-          <!-- Aqui começa outro Simples-->   
-          <li class='treeview'>
-            <a href=index.php?" . base64_encode('consultaCategorias') . ">
-              <i class='fa fa-check-square-o'></i> <span>CONSULTA CATEGORIAS</span>
-            </a>
-          </li>  
-          <!-- Aqui termina Simples-->
-          <!-- Aqui começa outro Simples-->   
-          <li class='treeview'>
-            <a href=index.php?" . base64_encode('consultaBusinessUnit') . ">
-              <i class='fa fa-check-square-o'></i> <span>CONSULTA B.U</span>
-            </a>
-          </li>  
-          <!-- Aqui termina Simples-->
-          <!-- Aqui começa outro Simples-->   
-          <li class='treeview'>
-            <a href=index.php?" . base64_encode('configuracoes') . ">
+            <a href=index.php?" . base64_encode('cadConfig') . ">
               <i class='fa fa-gears'></i> <span>CONFIGURAÇÕES</span>
             </a>
           </li>  
@@ -232,8 +196,8 @@ switch ($option) {
     case "cadQuest":
         require_once ('formCadQuestoes.php');
         break;
-    case "cadResp":
-      require_once ('formCadRespostas.php');
+    case "cadAltern":
+      require_once ('formCadAlternativas.php');
       break;
     case "cadUsers":
       require_once ('formCadUsers.php');
@@ -244,29 +208,14 @@ switch ($option) {
     case "cadBusinessUnit":
       require_once ('formCadBusinessUnit.php');
       break;
-    case "consultaUsers":
-      require_once ('consultaUsers.php');
-      break;
-    case "consultaQuestoes":
-        require_once ('consultaPerguntas.php');
-        break;
-    case "consultaRespostas":
-        require_once ('consultaRespostas.php');
-        break;
-    case "consultaCategorias":
-      require_once ('consultaCategorias.php');
-      break;
-    case "consultaBusinessUnit":
-      require_once ('consultaBusinessUnit.php');
-      break;
     case "editUsers":
       require_once ('formEditUsers.php');
       break;
     case "editQuestao":
         require_once ('formEditQuestao.php');
         break;
-    case "editResposta":
-        require_once ('formEditResposta.php');
+    case "editAlternativa":
+        require_once ('formEditAlternativa.php');
         break;
     case "welcome":
       require_once ('welcome.php');
@@ -332,6 +281,15 @@ switch ($option) {
 <script src="js/select2.full.min.js"></script>
 <!-- InputMask -->
 <script>
+function isNumber(evt) {
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        return false;
+    }
+    return true;
+}
+
 $(document).ready(function() {
   $('#birth-date').mask('00/00/0000');
   $('#phone').mask('(00) 00000-0000');
@@ -365,18 +323,18 @@ $('#delete_button').click(function() {
 
 $('#delete_button_resp').click(function() {
   $.ajax({
-     url: 'functions/deleteResposta.php',
+     url: 'functions/deleteAlternativa.php',
      type: 'POST',
      data: {id : "<?php echo $_GET['id']; ?>"}
   })
   .done(function(){
     alert('Deletado com sucesso!');
-    var redirect = "<?php echo 'index.php?' . base64_encode('consultaRespostas'); ?>"
+    var redirect = "<?php echo 'index.php?' . base64_encode('cadAltern'); ?>"
     window.location.href = redirect
   })
   .fail(function(){
-    alert('Falha ao deletar resposta!');
-    window.location.href = "<?php echo 'index.php?' . base64_encode('consultaRespostas'); ?>"
+    alert('Falha ao deletar alternativa!');
+    window.location.href = "<?php echo 'index.php?' . base64_encode('cadAltern'); ?>"
   })
 });
 
@@ -388,12 +346,12 @@ $('#delete_button_cat').click(function() {
   })
   .done(function(){
     alert('Deletado com sucesso!');
-    var redirect = "<?php echo 'index.php?' . base64_encode('consultaCategorias'); ?>"
+    var redirect = "<?php echo 'index.php?' . base64_encode('cadCategoria'); ?>"
     window.location.href = redirect
   })
   .fail(function(){
     alert('Falha ao deletar categoria!');
-    window.location.href = "<?php echo 'index.php?' . base64_encode('consultaCategorias'); ?>"
+    window.location.href = "<?php echo 'index.php?' . base64_encode('cadCategoria'); ?>"
   })
 });
 
@@ -405,12 +363,12 @@ $('#delete_button_bu').click(function() {
   })
   .done(function(){
     alert('Deletado com sucesso!');
-    var redirect = "<?php echo 'index.php?' . base64_encode('consultaBusinessUnit'); ?>"
+    var redirect = "<?php echo 'index.php?' . base64_encode('cadBusinessUnit'); ?>"
     window.location.href = redirect
   })
   .fail(function(){
     alert('Falha ao deletar business unit!');
-    window.location.href = "<?php echo 'index.php?' . base64_encode('consultaBusinessUnit'); ?>"
+    window.location.href = "<?php echo 'index.php?' . base64_encode('cadBusinessUnit'); ?>"
   })
 });
 
@@ -422,18 +380,18 @@ $('#delete_buttonUser').click(function() {
   })
   .done(function(){
     alert('Deletado com sucesso!');
-    window.location.href = "<?php echo 'index.php?' . base64_encode('consultaUsers'); ?>"
+    window.location.href = "<?php echo 'index.php?' . base64_encode('cadUsers'); ?>"
   })
   .fail(function(){
     alert('Falha ao deletar usuário!');
-    window.location.href = "<?php echo 'index.php?' . base64_encode('consultaUsers'); ?>"
+    window.location.href = "<?php echo 'index.php?' . base64_encode('cadUsers'); ?>"
   })
 });
 
 
-  var perguntas = $('#tablePerguntas').DataTable( {
+  var questoes = $('#tableQuestoes').DataTable( {
       "ajax": {
-          url: 'functions/convertQueryConsultaPerguntas.php',
+          url: 'functions/convertQueryConsultaQuestoes.php',
           dataSrc: ''
       },            
 
@@ -471,7 +429,7 @@ $('#delete_buttonUser').click(function() {
         "columnDefs": [ {
             "targets": -1,
             "data": null,
-            "defaultContent": "<button class='btn-primary btn-flat'>Editar Pergunta</button>"
+            "defaultContent": "<button class='btn-primary btn-flat'>Editar Questão</button>"
           },
           {
             'targets': -1, // column index (start from 0)
@@ -503,8 +461,8 @@ $('#delete_buttonUser').click(function() {
         ]
   });
 
-  $('#tablePerguntas tbody').on( 'click', 'button', function () {
-      var data = perguntas.row( $(this).parents('tr') ).data();
+  $('#tableQuestoes tbody').on( 'click', 'button', function () {
+      var data = questoes.row( $(this).parents('tr') ).data();
       window.location.href = "index.php?<?php echo base64_encode('editQuestao'); ?>&id=" + data['quest_id'];
   });
 
@@ -565,9 +523,9 @@ $('#delete_buttonUser').click(function() {
           window.location.href = 'index.php?<?php echo base64_encode('editUsers');?>&id=' + data['id'];
       });
 
-     var respostas =  $('#tableRespostas').DataTable( {
+     var alternativas =  $('#tableAlternativas').DataTable( {
       "ajax": {
-          url: 'functions/convertQueryConsultaRespostas.php',
+          url: 'functions/convertQueryConsultaAlternativas.php',
           dataSrc: ''
       },
       "language": {
@@ -597,13 +555,14 @@ $('#delete_buttonUser').click(function() {
       "columns": [
             { "data": "id"},
             { "data": "quest_id" },
+            { "data": "alternative_id" },
             { "data": "response" },
             { "data": null }
         ],
         "columnDefs": [ {
         "targets": -1,
         "data": null,
-        "defaultContent": "<button class='btn-primary btn-flat'>Editar Resposta</button>"
+        "defaultContent": "<button class='btn-primary btn-flat'>Editar Alternativa</button>"
         }
         ],
         "dom": 'Bflrtip',
@@ -629,9 +588,9 @@ $('#delete_buttonUser').click(function() {
       "responsive": true,
       "info": true,
     } );
-    $('#tableRespostas tbody').on( 'click', 'button', function () {
+    $('#tableAlternativas tbody').on( 'click', 'button', function () {
       var data = respostas.row( $(this).parents('tr') ).data();
-      window.location.href = "index.php?<?php echo base64_encode('editResposta'); ?>&id=" + data['id'];
+      window.location.href = "index.php?<?php echo base64_encode('editAlternativa'); ?>&id=" + data['id'];
   });
 
   var categorias =  $('#tableCategorias').DataTable( {
@@ -735,7 +694,6 @@ $('#delete_buttonUser').click(function() {
       "columns": [
             { "data": "id"},
             { "data": "title" },
-            { "data": "total" },
             { "data": null }
         ],
         "columnDefs": [ {
