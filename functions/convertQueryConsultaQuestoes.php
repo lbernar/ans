@@ -6,7 +6,7 @@
 include "db-connect.php";
 $db->beginTransaction();
 // Define your SQL statement //
-$query = $db->query("SELECT quest.quest_id, quest.question, tq.type_desc, cat.category_desc, bu.bu_desc 
+$query = $db->query("SELECT quest.quest_id, quest.question, tq.type_desc, cat.class, bu.title
 FROM questions AS quest 
 INNER JOIN type_questions AS tq ON tq.id = quest.type_id
 INNER JOIN categories AS cat ON cat.id = quest.category_id 

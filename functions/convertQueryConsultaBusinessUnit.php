@@ -6,7 +6,7 @@
 include "db-connect.php";
 $db->beginTransaction();
 // Define your SQL statement //
-$query = $db->query("SELECT id, title, total FROM bu")->fetchAll(PDO::FETCH_ASSOC);
+$query = $db->query("SELECT id, title FROM business_unit")->fetchAll(PDO::FETCH_ASSOC);
 
 echo json_encode($query);
 //echo "<pre>",print_r($query),"</pre>";
