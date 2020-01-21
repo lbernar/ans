@@ -6,7 +6,9 @@
 include "db-connect.php";
 $db->beginTransaction();
 // Define your SQL statement //
-$query = $db->query("SELECT id, quest_id, alternative_id, response FROM alternatives")->fetchAll(PDO::FETCH_ASSOC);
+$query = $db->query("SELECT id, quest_id, alternative_id, response FROM alternatives");
+$query->execute();
+$query = $query->fetchAll(PDO::FETCH_ASSOC);
 
 echo json_encode($query);
 //echo "<pre>",print_r($query),"</pre>";

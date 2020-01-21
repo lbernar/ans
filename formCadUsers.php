@@ -1,10 +1,10 @@
 
 <?php 
- if($_SESSION['level'] == 1) {
+ if($_SESSION['userProfile']['level'] == 0) {
+  $option = base64_encode('welcome');
   echo "<script>
-  
         alert('Você não tem permissão para acessar essa página!')
-        window.location.href = 'index.php?option=1'
+        window.location.href = 'index.php?$option'
         </script>";
 }
 ?>

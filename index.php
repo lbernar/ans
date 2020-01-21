@@ -9,7 +9,15 @@ error_reporting(E_ALL ^ E_NOTICE);
 
 #------------------------------------------------------------------
 # Session protected
+if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 1800)) {
+  // request 30 minates ago
+  session_destroy();
+  session_unset();
+  header("Location: login-page.php"); exit;
+}
 if (!isset($_SESSION['userProfile']['user_id'])) { header("Location: login-page.php"); exit; }
+$_SESSION['LAST_ACTIVITY'] = time(); // update last activity time
+
 #------------------------------------------------------------------
 ?>
 <!DOCTYPE html>

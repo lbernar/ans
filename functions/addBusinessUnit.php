@@ -1,5 +1,4 @@
 <?php
-session_start();
 include "db-connect.php";
 $sth = $db->prepare("INSERT INTO bu (title, total) 
 VALUES (:title, :total)");

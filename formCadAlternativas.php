@@ -1,3 +1,12 @@
+<?php
+if($_SESSION['userProfile']['level'] == 0) {
+  $option = base64_encode('welcome');
+  echo "<script>
+        alert('Você não tem permissão para acessar essa página!')
+        window.location.href = 'index.php?$option'
+        </script>";
+}
+?>
 <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->

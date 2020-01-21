@@ -10,7 +10,9 @@ $query = $db->query("SELECT quest.quest_id, quest.question, tq.type_desc, cat.cl
 FROM questions AS quest 
 INNER JOIN type_questions AS tq ON tq.id = quest.type_id
 INNER JOIN categories AS cat ON cat.id = quest.category_id 
-INNER JOIN business_unit AS bu ON quest.bu_id = bu.id")->fetchAll(PDO::FETCH_ASSOC);
+INNER JOIN business_unit AS bu ON quest.bu_id = bu.id");
+$query->execute();
+$query = $query->fetchAll(PDO::FETCH_ASSOC);
 
 echo json_encode($query);
 //echo "<pre>",print_r($query),"</pre>";

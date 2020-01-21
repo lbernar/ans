@@ -1,14 +1,13 @@
 <?php
-if($_SESSION['level'] == 0) {
-  echo "<script>
-  
-        alert('Você não tem permissão para acessar essa página!')
-        window.location.href = 'index.php?option=1'
-        </script>";
-}
 $id = $_GET['id'];
 include "functions/db-connect.php";
-
+if($_SESSION['userProfile']['level'] == 0) {
+  $option = base64_encode('welcome');
+  echo "<script>
+        alert('Você não tem permissão para acessar essa página!')
+        window.location.href = 'index.php?$option'
+        </script>";
+}
 $db->beginTransaction();
 // Define your SQL statement //
 $query = $db->prepare("SELECT * FROM users WHERE id = :id");

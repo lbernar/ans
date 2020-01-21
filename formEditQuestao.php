@@ -1,7 +1,13 @@
 <?php
 $id = $_GET['id'];
 include "functions/db-connect.php";
-
+if($_SESSION['userProfile']['level'] == 0) {
+  $option = base64_encode('welcome');
+  echo "<script>
+        alert('Você não tem permissão para acessar essa página!')
+        window.location.href = 'index.php?$option'
+        </script>";
+}
 $db->beginTransaction();
 // Define your SQL statement //
 $query = $db->prepare("SELECT quest.id, quest.quest_id, quest.question, tq.type_desc, tq.id AS type_id, cat.category_desc, cat.id AS category_id,  bu.id AS bu_id, bu.bu_desc 

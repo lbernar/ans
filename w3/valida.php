@@ -3,7 +3,7 @@ include_once "../functions/db-connect.php";
 
 session_start();
 $userInfo = getUsers($_POST['email'], $db);
-
+$_SESSION['LAST_ACTIVITY'] = time(); // update last activity time
 if(isUserRegistered($_POST['email'], $db)) {
   if($_POST['email'] == $userInfo['email'] && $_POST['pass'] == $userInfo['password'] ){
     $_SESSION['userProfile']['user_id'] = $userInfo['id'];

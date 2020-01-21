@@ -8,7 +8,9 @@ $db->beginTransaction();
 $result = [];
 // Define your SQL statement //
 //$query = $db->query("SELECT * from sinal")->fetchAll(PDO::FETCH_ASSOC);
-$query = $db->query("SELECT id, name, email, level, status FROM users")->fetchAll(PDO::FETCH_ASSOC);
+$query = $db->prepare("SELECT id, name, email, level, status FROM users");
+$query->execute();
+$query = $query->fetchAll(PDO::FETCH_ASSOC);
 foreach($query as $line) {
 
     if($line['level'] == 1)
