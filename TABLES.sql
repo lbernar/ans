@@ -49,7 +49,7 @@ CREATE TABLE `categories` (
 DROP TABLE IF EXISTS `business_unit`;
 CREATE TABLE `business_unit` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
-`title` char(1) DEFAULT NULL,
+`title` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 )CHARACTER SET 'UTF8';
 
