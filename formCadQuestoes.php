@@ -43,10 +43,10 @@ include_once "functions/db-connect.php";
                     <?php
                       $sth = $db->prepare("SELECT * FROM type_questions ORDER BY type_desc ASC");
                       $sth->execute();
-                      $category = $sth->fetchAll(PDO::FETCH_ASSOC);
-							        for($i=0;$i < count($category); $i++){  
+                      $type = $sth->fetchAll(PDO::FETCH_ASSOC);
+							        for($i=0;$i < count($type); $i++){  
 							      ?>
-							      <option required value="<?=$category[$i]['id'];?>"><?=$category[$i]['type_desc'];?></option>
+							      <option required value="<?=$type[$i]['id'];?>"><?=$type[$i]['type_desc'];?></option>
                     <?php } ?>						
                   </select>
                 </div>
@@ -55,12 +55,12 @@ include_once "functions/db-connect.php";
                   <select required name="bu" class="form-control">
                     <option selected="selected">Selecione uma business unit...</option>
                     <?php
-                      $sth = $db->prepare("SELECT * FROM type_questions ORDER BY type_desc ASC");
+                      $sth = $db->prepare("SELECT * FROM business_unit ORDER BY title ASC");
                       $sth->execute();
-                      $category = $sth->fetchAll(PDO::FETCH_ASSOC);
-							        for($i=0;$i < count($category); $i++){  
+                      $bu = $sth->fetchAll(PDO::FETCH_ASSOC);
+							        for($i=0;$i < count($bu); $i++){  
 							      ?>
-							      <option required value="<?=$category[$i]['id'];?>"><?=$category[$i]['type_desc'];?></option>
+							      <option required value="<?=$bu[$i]['id'];?>"><?=$bu[$i]['title'];?></option>
                     <?php } ?>						
                   </select>
                 </div>
@@ -69,12 +69,12 @@ include_once "functions/db-connect.php";
                   <select required name="category" class="form-control">
                     <option selected="selected">Selecione uma categoria...</option>
                     <?php
-                      $sth = $db->prepare("SELECT * FROM type_questions ORDER BY type_desc ASC");
+                      $sth = $db->prepare("SELECT * FROM categories ORDER BY class ASC");
                       $sth->execute();
                       $category = $sth->fetchAll(PDO::FETCH_ASSOC);
 							        for($i=0;$i < count($category); $i++){  
 							      ?>
-							      <option required value="<?=$category[$i]['id'];?>"><?=$category[$i]['type_desc'];?></option>
+							      <option required value="<?=$category[$i]['id'];?>"><?=$category[$i]['class'];?></option>
                     <?php } ?>						
                   </select>
                 </div>

@@ -29,10 +29,6 @@ include_once "functions/db-connect.php";
                   <label>Título :</label>
                   <input type="text" required name="title" class="form-control">
                 </div>
-                <div class="form-group ">
-                  <label>Total :</label>
-                  <input type="number" required name="total" class="form-control">
-                </div>
                 <div class="box-footer">
                   <button type="submit" class="btn btn-primary btn-block btn-flat">Salvar</button>
                 </div>
@@ -58,7 +54,6 @@ include_once "functions/db-connect.php";
                 <tr>
                   <th>ID</th>
                   <th>Título</th>
-                  <th>Total</th>
                   <th>Ação</th>
                 </tr>
               </thead>

@@ -29,10 +29,10 @@ CREATE TABLE `questions` (
   PRIMARY KEY (`id`)
 )CHARACTER SET 'UTF8';
 
-DROP TABLE IF EXISTS `answers`;
-CREATE TABLE `answers` (
+DROP TABLE IF EXISTS `alternatives`;
+CREATE TABLE `alternatives` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
-`resp_id` varchar(255) DEFAULT NULL,
+`alternative_id` varchar(255) DEFAULT NULL,
 `quest_id` varchar(255) DEFAULT NULL,
 `response` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -50,7 +50,6 @@ DROP TABLE IF EXISTS `business_unit`;
 CREATE TABLE `business_unit` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `title` char(1) DEFAULT NULL,
-`total` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 )CHARACTER SET 'UTF8';
 
