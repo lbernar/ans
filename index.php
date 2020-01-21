@@ -225,6 +225,12 @@ switch ($option) {
     case "editAlternativa":
         require_once ('formEditAlternativa.php');
         break;
+    case "editCategoria":
+      require_once ('formEditCategoria.php');
+      break;
+    case "editBusinessUnit":
+      require_once ('formEditBusinessUnit.php');
+      break;
     case "welcome":
       require_once ('welcome.php');
       break;

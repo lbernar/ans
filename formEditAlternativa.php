@@ -10,7 +10,7 @@ if($_SESSION['userProfile']['level'] == 0) {
 }
 $db->beginTransaction();
 // Define your SQL statement //
-$query = $db->prepare("SELECT asw.id, asw.quest_id, asw.response, q.question FROM answers AS asw INNER JOIN questions AS q ON asw.quest_id = q.quest_id WHERE asw.id = :id");
+$query = $db->prepare("SELECT asw.id, asw.quest_id, asw.response, q.question FROM alternatives AS asw INNER JOIN questions AS q ON asw.quest_id = q.quest_id WHERE asw.id = :id");
 $query->bindValue(':id', $id);
 $query->execute();
 $sql = $query->fetchAll(PDO::FETCH_ASSOC)[0];

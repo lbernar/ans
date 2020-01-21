@@ -1,4 +1,6 @@
 <?php
+$id = $_GET['id'];
+include "functions/db-connect.php";
 if($_SESSION['userProfile']['level'] == 0) {
   $option = base64_encode('welcome');
   echo "<script>
@@ -6,16 +8,23 @@ if($_SESSION['userProfile']['level'] == 0) {
         window.location.href = 'index.php?$option'
         </script>";
 }
+$db->beginTransaction();
+// Define your SQL statement //
+$query = $db->prepare("SELECT title FROM business_unit WHERE id = :id");
+$query->bindValue(':id', $id);
+$query->execute();
+$sql = $query->fetchAll(PDO::FETCH_ASSOC)[0];
+$db->commit();
 ?>
 <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-		Cadastro de Business Unit
+		Editar Business Unit
       </h1>
       <ol class="breadcrumb">
-        <li><i class="fa fa-edit"></i>CADASTROS</li>
+        <li><i class="fa fa-edit"></i>ATUALIZAÇÕES</li>
         <li class="active">Business Unit</li>
       </ol>
     </section>
@@ -33,7 +42,7 @@ if($_SESSION['userProfile']['level'] == 0) {
               <form action="functions/addBusinessUnit.php" method="POST" id="form_bu" enctype="multipart/form-data">
                 <div class="form-group ">
                   <label>Título :</label>
-                  <input type="text" required name="title" class="form-control">
+                  <input type="text" required value="<?=$sql['title']?> name="title" class="form-control">
                 </div>
                 <div class="box-footer">
                   <button type="submit" class="btn btn-primary btn-block btn-flat">Salvar</button>
