@@ -326,16 +326,16 @@ $('#delete_button').click(function() {
   })
   .done(function(){
     alert('Deletado com sucesso!');
-    var redirect = "<?php echo 'index.php?' . base64_encode('consultaQuestoes'); ?>"
+    var redirect = "<?php echo 'index.php?' . base64_encode('cadQuestoes'); ?>"
     window.location.href = redirect
   })
   .fail(function(){
     alert('Falha ao deletar questao!');
-    window.location.href = "<?php echo 'index.php?' . base64_encode('consultaQuestoes'); ?>"
+    window.location.href = "<?php echo 'index.php?' . base64_encode('cadQuestoes'); ?>"
   })
 });
 
-$('#delete_button_resp').click(function() {
+$('#delete_button_altern').click(function() {
   $.ajax({
      url: 'functions/deleteAlternativa.php',
      type: 'POST',
@@ -436,8 +436,8 @@ $('#delete_buttonUser').click(function() {
             { "data": "quest_id"},
             { "data": "question" },
             { "data": "type_desc" },
-            { "data": "category_desc" },
-            { "data": "bu_desc" },
+            { "data": "class" },
+            { "data": "title" },
             { "data": null }
         ],
         "columnDefs": [ {
@@ -571,6 +571,7 @@ $('#delete_buttonUser').click(function() {
             { "data": "quest_id" },
             { "data": "alternative_id" },
             { "data": "response" },
+            { "data": "type_desc"},
             { "data": null }
         ],
         "columnDefs": [ {
@@ -603,7 +604,7 @@ $('#delete_buttonUser').click(function() {
       "info": true,
     } );
     $('#tableAlternativas tbody').on( 'click', 'button', function () {
-      var data = respostas.row( $(this).parents('tr') ).data();
+      var data = alternativas.row( $(this).parents('tr') ).data();
       window.location.href = "index.php?<?php echo base64_encode('editAlternativa'); ?>&id=" + data['id'];
   });
 

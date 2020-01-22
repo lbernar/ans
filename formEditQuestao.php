@@ -10,7 +10,7 @@ if($_SESSION['userProfile']['level'] == 0) {
 }
 $db->beginTransaction();
 // Define your SQL statement //
-$query = $db->prepare("SELECT quest.id, quest.quest_id, quest.question, tq.type_desc, tq.id AS type_id, cat.category_desc, cat.id AS category_id,  bu.id AS bu_id, bu.bu_desc 
+$query = $db->prepare("SELECT quest.id, quest.quest_id, quest.question, tq.type_desc, tq.id AS type_id, cat.class, cat.id AS category_id,  bu.id AS bu_id, bu.title 
 FROM questions AS quest 
 INNER JOIN type_questions AS tq ON tq.id = quest.type_id
 INNER JOIN categories AS cat ON cat.id = quest.category_id 
@@ -58,7 +58,7 @@ $db->commit();
                   <label>Questão :</label>
                   <!-- /.box-header -->
                   <div class="box-body pad">
-                    <textarea class="textarea" name="question" placeholder="Digite a questão..." style="width: 100%; height: 80px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">
+                    <textarea class="textarea" name="question" style="width: 100%; height: 80px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">
                       <?=$sql['question']?>
                     </textarea>
                   </div>
@@ -81,30 +81,30 @@ $db->commit();
                 <div class="form-group">
                   <label>Business Unit:</label>
                   <select required name="bu" class="form-control">
-                    <option required value="<?=$sql['bu_id']?>" selected="selected"><?=$sql['bu_desc']?></option>
+                    <option required value="<?=$sql['bu_id']?>" selected="selected"><?=$sql['title']?></option>
                     <option>--------------------------------------------------------------------------</option>
                     <?php
-                      $sth = $db->prepare("SELECT * FROM business_unit ORDER BY bu_desc ASC");
+                      $sth = $db->prepare("SELECT * FROM business_unit ORDER BY title ASC");
                       $sth->execute();
                       $bu = $sth->fetchAll(PDO::FETCH_ASSOC);
 							        for($i=0;$i < count($bu); $i++){  
 							      ?>
-							      <option required value="<?=$bu[$i]['id'];?>"><?=$bu[$i]['bu_desc'];?></option>
+							      <option required value="<?=$bu[$i]['id'];?>"><?=$bu[$i]['title'];?></option>
                     <?php } ?>						
                   </select>
                 </div>
                 <div class="form-group">
                   <label>Categoria:</label>
                   <select required name="category" class="form-control">
-                    <option required value="<?=$sql['category_id']?>" selected="selected"><?=$sql['category_desc']?></option>
+                    <option required value="<?=$sql['category_id']?>" selected="selected"><?=$sql['class']?></option>
                     <option>--------------------------------------------------------------------------</option>
                     <?php
-                      $sth = $db->prepare("SELECT * FROM categories ORDER BY category_desc ASC");
+                      $sth = $db->prepare("SELECT * FROM categories ORDER BY class ASC");
                       $sth->execute();
                       $category = $sth->fetchAll(PDO::FETCH_ASSOC);
 							        for($i=0;$i < count($category); $i++){  
 							      ?>
-							      <option required value="<?=$category[$i]['id'];?>"><?=$category[$i]['category_desc'];?></option>
+							      <option required value="<?=$category[$i]['id'];?>"><?=$category[$i]['class'];?></option>
                     <?php } ?>						
                   </select>
                 </div>

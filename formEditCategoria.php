@@ -36,10 +36,15 @@ $db->commit();
         <div class="col-md-10 col-md-offset-1">
 	    <!-- general form elements disabled -->
           <div class="box">
-            <div class="box-header with-border"></div>
+          <div class="box-header with-border">
+            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalDelete">
+              Deletar Categoria
+            </button>
+          </div>
             <!-- /.box-header -->
             <div class="box-body">
-              <form action="functions/addCategoria.php" method="POST" id="form_category" enctype="multipart/form-data">
+              <form action="functions/updateCategoria.php" method="POST" id="form_category" enctype="multipart/form-data">
+              <input type='hidden' name='id' value="<?=$id?>">
                 <div class="form-group ">
                   <label>Classe :</label>
                   <input type="text" required name="class" value="<?=$sql['class']?>" class="form-control">
@@ -54,6 +59,24 @@ $db->commit();
                 <!-- text input -->
               </form>
             </div>
+            <div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <h3>Deseja mesmo deletar essa categoria?</h3>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" id="delete_button_cat" class="btn btn-danger">Deletar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
             <!-- /.box-body -->
           </div>
           <!-- /.box -->
@@ -62,28 +85,6 @@ $db->commit();
       </div>
       <!-- /.row -->
     </section>
-    <section class="content-header">
-    <!-- row -->
-    <div  class="row">
-      <div class="col-md-12 ">
-        <div class="box">
-          <div class="box-body">
-            <table id="tableCategorias" class="table table-striped table-bordered table-condensed" cellspacing="0" width="100%">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Classe</th>
-                  <th>Sub Classe</th>
-                  <th>Ação</th>
-                </tr>
-              </thead>
-            </table>
-          </div>
-        </div> 
-      </div> 
-    </div>  
-    <!-- /.row -->
-  </section>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->

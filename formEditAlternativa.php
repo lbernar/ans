@@ -10,10 +10,11 @@ if($_SESSION['userProfile']['level'] == 0) {
 }
 $db->beginTransaction();
 // Define your SQL statement //
-$query = $db->prepare("SELECT asw.id, asw.quest_id, asw.response, q.question FROM alternatives AS asw INNER JOIN questions AS q ON asw.quest_id = q.quest_id WHERE asw.id = :id");
+$query = $db->prepare("SELECT asw.id, asw.quest_id, asw.alternative_id, asw.response, q.question FROM alternatives AS asw INNER JOIN questions AS q ON asw.quest_id = q.quest_id WHERE asw.id = :id");
 $query->bindValue(':id', $id);
 $query->execute();
 $sql = $query->fetchAll(PDO::FETCH_ASSOC)[0];
+$sql['alternative_id'] = str_replace('A', '', $sql['alternative_id']);
 $db->commit();
 ?>
 <!-- Content Wrapper. Contains page content -->
@@ -21,11 +22,11 @@ $db->commit();
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-		Editar Afirmação
+		Editar alternativa
       </h1>
       <ol class="breadcrumb">
         <li><i class="fa fa-edit"></i>ATUALIZAÇÕES</li>
-        <li class="active">Resposta</li>
+        <li class="active">Alternativa</li>
       </ol>
     </section>
 <!-- Main content -->
@@ -38,7 +39,7 @@ $db->commit();
           <div class="box">
             <div class="box-header with-border">
               <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalDelete">
-                Deletar Afirmação
+                Deletar Alternativa
               </button>
             </div>
             <!-- /.box-header -->
@@ -91,11 +92,11 @@ $db->commit();
                     </button>
                   </div>
                   <div class="modal-body">
-                    <h3>Deseja mesmo deletar essa afirmação?</h3>
+                    <h3>Deseja mesmo deletar essa alternativa?</h3>
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="button" id="delete_button_resp" class="btn btn-danger">Deletar</button>
+                    <button type="button" id="delete_button_altern" class="btn btn-danger">Deletar</button>
                   </div>
                 </div>
               </div>

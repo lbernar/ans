@@ -67,7 +67,7 @@ $db->commit();
                 <div class="form-group">
                   <label>Nível de Acesso :</label>
                   <select name="level" class="form-control">
-                    <option required selected="selected"><?php if($sql['level']==1){echo "Adminstrador";}else{echo "Usuário";}?></option>
+                    <option required value="<?=$sql['level']?>" selected="selected"><?php if($sql['level']==1){echo "Adminstrador";}else{echo "Usuário";}?></option>
                     <option>--------------------------------------------------------------------------</option>
                     <option value=0>Usuário</option>
                     <option value=1>Administrador</option>

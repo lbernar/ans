@@ -80,6 +80,7 @@ if($_SESSION['userProfile']['level'] == 0) {
             <table id="tableAlternativas" class="table table-striped table-bordered table-condensed" cellspacing="0" width="100%">
               <thead>
                 <tr>
+                  <th>ID Interno</th>
                   <th>ID Questão</th>
                   <th>ID Alternativa</th>
                   <th>Enunciado</th>

@@ -8,6 +8,6 @@ $sth = $db->prepare("DELETE FROM questions WHERE quest_id = :id");
  //Verifico se o registro foi inserido com sucesso ao mesmo tempo em que executa a query
   $sth->execute();
   $db->commit();
-  $option = base64_encode('cadQuestoes');
+  $option = base64_encode('cadQuest');
   header("Location: ../index.php?$option"); 
 ?>
