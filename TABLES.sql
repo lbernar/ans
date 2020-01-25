@@ -68,8 +68,18 @@ VALUES  ('P','Peso'),
 DROP TABLE IF EXISTS `results`;
 CREATE TABLE `results` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
-`resp_id` varchar(255) DEFAULT NULL,
-`quest_id` varchar(255) DEFAULT NULL,
+`resp_id` int(11) DEFAULT NULL,
+`quest_id` int(11) DEFAULT NULL,
+`user_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+)CHARACTER SET 'UTF8';
+
+DROP TABLE IF EXISTS `status`;
+CREATE TABLE `status` (
+`id` int(11) NOT NULL AUTO_INCREMENT,
+`user_id` int(11) DEFAULT NULL,
+`status_quest` int(11) DEFAULT NULL,
+`last_page` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 )CHARACTER SET 'UTF8';
 

@@ -190,6 +190,13 @@ $_SESSION['LAST_ACTIVITY'] = time(); // update last activity time
             </a>
           </li>  
           <!-- Aqui termina Simples-->
+          <!-- Aqui começa outro Simples-->   
+          <li class='treeview'>
+            <a href=index.php?" . base64_encode('respondeQuestoes') . ">
+              <i class='fa fa-gears'></i> <span>RESPONDE QUESTAO</span>
+            </a>
+          </li>  
+          <!-- Aqui termina Simples-->
             ";
           }
 
@@ -233,6 +240,9 @@ switch ($option) {
       break;
     case "welcome":
       require_once ('welcome.php');
+      break;
+    case "respondeQuestoes":
+      require_once ('paginaQuestoes.php');
       break;
     case "cadConfig":
       require_once ('formCadConfig.php');
@@ -295,6 +305,60 @@ switch ($option) {
 <script src="js/select2.full.min.js"></script>
 <!-- InputMask -->
 <script>
+
+function registerEvents(selectors, maxWeight = 15) {
+  selectors.on("change", function() {
+    populateWeights(selectors, maxWeight);
+  });
+}
+
+function populateWeights(selectors, maxWeight) {
+  const remainingWeight = maxWeight - totalWeight(selectors);
+
+  selectors.each(function(index, select) {
+    const selectVal = $("option:selected", select).val().trim();
+    const remainingOptions = $("option:selected", select).nextAll().size();
+
+    const selectValNumber = parseInt(selectVal || 0);
+    
+    if(remainingOptions > remainingWeight) {
+      removeLastNOptions($(select), remainingOptions - remainingWeight)
+    } else {
+      removeLastNOptions($(select), remainingOptions)
+      addMOptionsFromN($(select), selectValNumber + 1, remainingWeight);
+    }
+
+    
+  });
+
+  if(remainingWeight === 0 && $("option[value='']:selected").size() === 0)
+  {
+    $("#btn_save_cont").attr("disabled", false);
+  }
+}
+
+function totalWeight(selectors) {
+  let total = 0;
+  selectors.each(function(index, select) {
+    const val = $("option:selected", select).val().trim();
+    if(val)
+      total += parseInt(val);
+  });
+  return total;
+}
+
+function addMOptionsFromN(select, n, m) {
+  for(let i = 0; i < m; i++) {
+    const option = $(`<option value="${i+n}">${i+n}</option>`);
+    select.append(option);
+  }
+}
+
+function removeLastNOptions(select, n) {
+  //console.log("removing: ", `option:nth-last-child(-n+${n})`);
+  $(`option:nth-last-child(-n+${n})`, select).remove();
+}
+
 function isNumber(evt) {
     evt = (evt) ? evt : window.event;
     var charCode = (evt.which) ? evt.which : evt.keyCode;
@@ -305,6 +369,8 @@ function isNumber(evt) {
 }
 
 $(document).ready(function() {
+  $('#btn_save_cont').prop('disabled', false);
+  registerEvents($(".peso"));
   $('#birth-date').mask('00/00/0000');
   $('#phone').mask('(00) 00000-0000');
   $(".textarea").wysihtml5();
@@ -318,6 +384,20 @@ $(document).ready(function() {
         'specialChars': false
     });
 
+    $('#form_response').submit(function(){
+			var dados = $( this ).serialize();
+      //alert(dados)
+			$.ajax({
+				type: "POST",
+				url: "functions/updateStatus.php",
+				data: dados,
+				success: function( data )
+				{
+					alert( data );
+				}
+			});
+			return false;
+		});
 $('#delete_button').click(function() {
   $.ajax({
      url: 'functions/deleteQuestao.php',
