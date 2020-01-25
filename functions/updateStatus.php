@@ -15,12 +15,8 @@ else {
   $option = base64_encode("respondeQuestoes&page=$nextPage");
   $statusQuest = 'S';
 }
-  
-if($db->lastInsertId('status') == 0) 
-  $sth = $db->prepare("INSERT INTO status (user_id, status_quest, last_page) VALUES (:user_id, :status_quest, :last_page)");
-else
-  $sth = $db->prepare("UPDATE status SET status_quest = :status_quest, last_page = :last_page WHERE user_id = :user_id");
 
+$sth = $db->prepare("UPDATE status SET status_quest = :status_quest, last_page = :last_page WHERE user_id = :user_id");
 $sth->bindValue(':user_id', $userId);
 $sth->bindValue(':status_quest', $statusQuest);
 $sth->bindValue(':last_page', $lastPage);
