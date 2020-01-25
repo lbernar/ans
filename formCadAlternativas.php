@@ -54,7 +54,7 @@ if($_SESSION['userProfile']['level'] == 0) {
                   <label>Alternativa :</label>
                   <!-- /.box-header -->
                   <div class="box-body pad">
-                      <textarea class="textarea" name="response" placeholder="Digite a afirmção da questão selecionada..." style="width: 100%; height: 80px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
+                      <textarea class="textarea" name="response" placeholder="Digite a afirmação da questão selecionada..." style="width: 100%; height: 80px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
                   </div>
                 </div>
                 <div class="box-footer">

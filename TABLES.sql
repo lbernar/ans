@@ -68,8 +68,9 @@ VALUES  ('P','Peso'),
 DROP TABLE IF EXISTS `results`;
 CREATE TABLE `results` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
-`resp_id` int(11) DEFAULT NULL,
+`alternative_id` int(11) DEFAULT NULL,
 `quest_id` int(11) DEFAULT NULL,
+`response` varchar(255) DEFAULT NULL,
 `user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 )CHARACTER SET 'UTF8';

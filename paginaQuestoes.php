@@ -2,19 +2,15 @@
 include 'functions/db-connect.php';
 $db->beginTransaction();
 // Define your SQL statement //
-$query = $db->prepare("SELECT ini_msg FROM config");
-$query->execute();
-$iniMsg = $query->fetchAll(PDO::FETCH_ASSOC)[0];
-
 $query = $db->prepare("SELECT last_page FROM status");
 $query->execute();
 $lastPage = $query->fetchAll(PDO::FETCH_ASSOC)[0];
 
-
 //Verificar se está sendo passado na URL a página atual, senao é atribuido a pagina 
-$num_pag = base64_decode(key($_GET));
-$pagina = (!empty($num_pag) && is_numeric($num_pag)) ? base64_decode(key($_GET)) : 0;
-if($lastPage == $pagina){
+$num_pag = str_replace('page=', '', explode('&',base64_decode(key($_GET)))[1]);
+$pagina = (!empty($num_pag) && is_numeric($num_pag)) ? $num_pag : 0;
+
+if($lastPage == $pagina && !empty($lastPage)){
     $next = $page + 1;
     $option = base64_encode("respondeQuestoes&page=$next");
     echo "<script>
@@ -29,7 +25,6 @@ $totalQuestions = $db->prepare("SELECT q.quest_id, q.question, t.type_desc FROM 
 $totalQuestions->execute();
 $totalQuestions = count($totalQuestions->fetchAll(PDO::FETCH_ASSOC));
 
-//Calcular o inicio da visualizacao
 //Selecionar os cursos a serem apresentado na página
 $resultQuest = $db->prepare("SELECT q.quest_id, q.question, t.type_desc FROM questions AS q 
                             INNER JOIN type_questions AS t ON q.type_id = t.id LIMIT $pagina, 1");
@@ -44,14 +39,12 @@ $db->commit();
     <section class="content">
     <!-- Default box -->
         <div class="box">
-            <form action="" method="POST" class="form form-horizontal" id="form_response" enctype="multipart/form-data">
+            <form action="" method="POST" class="form form-horizontal" id="form_response">
                 <input type="hidden" name="page" value="<?=$pagina?>">
                 <input type="hidden" name="quant_quest" value="<?=$totalQuestions?>">
                 <input type="hidden" name="quest_id" value="<?=$resultQuest['quest_id']?>">
                 <input type="hidden" name="user_id" value="<?=$_SESSION['userProfile']['user_id']?>">
-
                 <div class="box-body">
-                    <?=$iniMsg['ini_msg']?>
                     <section class="content-header">
                         <!-- row -->
                         <div  class="row">
@@ -62,11 +55,10 @@ $db->commit();
                                 <!-- /.box-header -->
                                 <div class="box-body">
                                     <div class="form-group ">
-                                    <?php var_dump($num_pag); ?>
-                                    <h4><label>Questão :</label></h4>
-                                            <div>
-                                                <?=$resultQuest['question']?>
-                                            </div>
+                                        <h4><label>Questão :</label></h4>
+                                        <div>
+                                            <?=$resultQuest['question']?>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="box-body">
@@ -74,7 +66,6 @@ $db->commit();
                                         <div class="col-md-3">
                                             <h4><label>Afirmações :</label></h4>
                                             <?php
-                                               $resultQuest['type_desc'] = 'S';
                                                 $resultAltern = $db->prepare("SELECT quest_id, alternative_id, response FROM alternatives WHERE quest_id = :quest_id");
                                                 $resultAltern->bindValue(':quest_id', $resultQuest['quest_id']);
                                                 $resultAltern->execute();

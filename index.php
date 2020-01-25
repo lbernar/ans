@@ -206,7 +206,7 @@ $_SESSION['LAST_ACTIVITY'] = time(); // update last activity time
   </aside>
 
  <?php
-$option= base64_decode(key($_GET));
+$option= explode('&', base64_decode(key($_GET)))[0];
 switch ($option) {
     case "cadQuest":
         require_once ('formCadQuestoes.php');
@@ -248,7 +248,10 @@ switch ($option) {
       require_once ('formCadConfig.php');
       break;
     default:
-      require_once('welcome.php');
+      if($_SESSION['userProfile']['level'] == 1)
+        require_once('initialPage.php');
+      else
+        require_once('initialPage.php');
       break;
     }
 ?> 
@@ -384,20 +387,21 @@ $(document).ready(function() {
         'specialChars': false
     });
 
-    $('#form_response').submit(function(){
-			var dados = $( this ).serialize();
-      //alert(dados)
-			$.ajax({
-				type: "POST",
-				url: "functions/updateStatus.php",
-				data: dados,
-				success: function( data )
-				{
-					alert( data );
-				}
-			});
-			return false;
-		});
+$('#form_response').submit(function(){
+  var dados = $( this ).serialize();
+  $.ajax({
+    type: "POST",
+    url: "functions/updateStatus.php",
+    data: dados,
+    success: function( data )
+    {
+      window.location.href = 'index.php?' + data
+    }
+  });
+  return false;
+});
+
+
 $('#delete_button').click(function() {
   $.ajax({
      url: 'functions/deleteQuestao.php',
@@ -607,7 +611,7 @@ $('#delete_buttonUser').click(function() {
   "paging": true,
   "lengthChange": true,
   "searching": true,
-  "ordering": false,
+  "ordering": true,
   "autoWidth": true,
   "responsive": true,
   "info": true
@@ -658,6 +662,10 @@ $('#delete_buttonUser').click(function() {
         "targets": -1,
         "data": null,
         "defaultContent": "<button class='btn-primary btn-flat'>Editar Alternativa</button>"
+        },
+        {
+          "targets": [0],
+          "visible": false
         }
         ],
         "dom": 'Bflrtip',
@@ -727,6 +735,10 @@ $('#delete_buttonUser').click(function() {
         "targets": -1,
         "data": null,
         "defaultContent": "<button class='btn-primary btn-flat'>Editar Categoria</button>"
+        },
+        {
+          "targets": [0],
+          "visible": false
         }
         ],
         "dom": 'Bflrtip',
@@ -795,6 +807,10 @@ $('#delete_buttonUser').click(function() {
         "targets": -1,
         "data": null,
         "defaultContent": "<button class='btn-primary btn-flat'>Editar B.U</button>"
+        },
+        {
+          "targets": [0],
+          "visible": false
         }
         ],
         "dom": 'Bflrtip',
