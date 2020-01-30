@@ -44,6 +44,7 @@ $db->commit();
             <!-- /.box-header -->
             <div class="box-body">
               <form action="functions/updateBusinessUnit.php" method="POST" id="form_bu" enctype="multipart/form-data">
+                <input type='hidden' name='id' value="<?=$id?>">
                 <div class="form-group ">
                   <label>Título :</label>
                   <input type="text" required value="<?=$sql['title']?>" name="title" class="form-control">

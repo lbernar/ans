@@ -13,8 +13,20 @@ $sth->bindValue(':bu_id', $_POST['bu']);
 $sth->bindValue(':category_id', $_POST['category']);
 
  //Verifico se o registro foi inserido com sucesso ao mesmo tempo em que executa a query
-  $sth->execute();
+ if($sth->execute()) {
   $db->commit();
-  $option = base64_encode('editQuestao');
-  header("Location: ../index.php?$option&id=$question_id"); 
+  $option = base64_encode('cadQuest');
+  echo "<script>
+  alert('Questão alterada com sucesso!')
+  window.location.href = '../index.php?$option'
+  </script>";
+}
+else {
+  $db->commit();
+  $option = base64_encode('cadQuest');
+  echo "<script>
+  alert('Houve um problema em atualizar a questão, por favor contate o administrador do sistema!')
+  window.location.href = '../index.php?$option'
+  </script>";
+}
 ?>

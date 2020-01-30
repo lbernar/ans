@@ -11,8 +11,20 @@ $sth = $db->prepare("UPDATE alternatives SET quest_id = :quest_id, alternative_i
   $sth->bindValue(':response', $_POST['response']);
 
  //Verifico se o registro foi inserido com sucesso ao mesmo tempo em que executa a query
-  $sth->execute();
+ if($sth->execute()) {
   $db->commit();
-  $option = base64_encode('editAlternativa');
-  header("Location: ../index.php?$option&id=$id"); 
+  $option = base64_encode('cadAltern');
+  echo "<script>
+  alert('Alternativa alterada com sucesso!')
+  window.location.href = '../index.php?$option'
+  </script>";
+}
+else {
+  $db->commit();
+  $option = base64_encode('cadAltern');
+  echo "<script>
+  alert('Houve um problema em atualizar a alternativa, por favor contate o administrador do sistema!')
+  window.location.href = '../index.php?$option'
+  </script>";
+}
 ?>

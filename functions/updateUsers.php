@@ -16,8 +16,21 @@ $sth->bindValue(':phone', $phone);
 $sth->bindValue(':password', $password);
 $sth->bindValue(':level', $level);
 
-$sth->execute();
-$db->commit();
-$option = base64_encode('editUsers');
-header("Location: ../index.php?$option&id=$id");
+if($sth->execute()) {
+  $db->commit();
+  $option = base64_encode('cadUsers');
+  echo "<script>
+  alert('Usuário alterado com sucesso!')
+  window.location.href = '../index.php?$option'
+  </script>";
+}
+else {
+  $db->commit();
+  $option = base64_encode('cadUsers');
+  echo "<script>
+  alert('Houve um problema em atualizar o usuário, por favor contate o administrador do sistema!')
+  window.location.href = '../index.php?$option'
+  </script>";
+}
+
 ?>

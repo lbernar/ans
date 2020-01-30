@@ -23,7 +23,7 @@ $db->commit();
                 </div>
                 <!-- /.box-body -->
                 <div class="box-footer">
-                    <button type="submit" class='btn-primary btn-flat pull-right'>Salvar e Continuar</button>
+                    <button type="submit" class='btn-primary btn-flat pull-right'>Iniciar Questionário</button>
                 </div>
             </form>
         <!-- /.box-footer-->

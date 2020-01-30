@@ -73,6 +73,21 @@ $db->commit();
                     <option value=1>Administrador</option>
                   </select>
                 </div>
+                <div class="form-group">
+                  <label>Tipo Sanguíneo :</label>
+                  <select required name="blood_type" class="form-control">
+                    <option required value="<?=$sql['blood_type']?>" selected="selected"><?=$sql['blood_type']?></option>
+                    <option>--------------------------------------------------------------------------</option>
+                    <option value="A+">A+</option>
+                    <option value="A-">A-</option>
+                    <option value="B+">B+</option>
+                    <option value="B-">B-</option>
+                    <option value="AB+">AB+</option>
+                    <option value="AB-">AB-</option>
+                    <option value="O+">O+</option>
+                    <option value="O-">O-</option>
+                  </select>
+                </div>
               <!-- /.form group -->
                 <div class="box-footer">
                 <button type="submit" class="btn btn-primary btn-block btn-flat">Salvar</button>

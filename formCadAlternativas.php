@@ -37,7 +37,7 @@ if($_SESSION['userProfile']['level'] == 0) {
                     <option selected="selected">Selecione uma questão...</option>
                     <?php
                       include_once "functions/db-connect.php";
-                      $sth = $db->prepare("SELECT * FROM questions ORDER BY quest_id ASC");
+                      $sth = $db->prepare("SELECT quest_id, question FROM questions ORDER BY id ASC");
                       $sth->execute();
                       $quest = $sth->fetchAll(PDO::FETCH_ASSOC);
 					            for($i=0;$i < count($quest); $i++){  
@@ -48,7 +48,7 @@ if($_SESSION['userProfile']['level'] == 0) {
                 </div>
                 <div class="form-group ">
                   <label>Número da alternativa :</label>
-                  <input type="number" required name="alternative_id" onkeypress="return isNumber(event)" class="form-control">
+                  <input type="text" required name="alternative_id" onkeypress="return isNumber(event)" class="form-control">
                 </div>
                 <div class="form-group">
                   <label>Alternativa :</label>

@@ -66,7 +66,7 @@ $db->commit();
                                         <div class="col-md-3">
                                             <h4><label>Afirmações :</label></h4>
                                             <?php
-                                                $resultAltern = $db->prepare("SELECT quest_id, alternative_id, response FROM alternatives WHERE quest_id = :quest_id");
+                                                $resultAltern = $db->prepare("SELECT quest_id, alternative_id, response FROM alternatives WHERE quest_id = :quest_id ORDER BY id ASC");
                                                 $resultAltern->bindValue(':quest_id', $resultQuest['quest_id']);
                                                 $resultAltern->execute();
                                                 $resultAltern = $resultAltern->fetchAll(PDO::FETCH_ASSOC);
@@ -77,7 +77,7 @@ $db->commit();
                                                     <div>
                                                         <?=$resultAltern[$i]['response']?>
                                                     </div>
-                                                    <select required class="peso form-control" name="peso[<?=$resultAltern[$i]['alternative_id']?>]">
+                                                    <select class="peso form-control" name="peso[<?=$resultAltern[$i]['alternative_id']?>]">
                                                         <option value="" selected="selected">Selecione um peso...</option>
                                                         <option value=1>1</option>
                                                         <option value=2>2</option>

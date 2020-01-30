@@ -13,8 +13,20 @@ else {
   $sth->bindValue(':final_msg', $_POST['final_msg']);
 
  //Verifico se o registro foi inserido com sucesso ao mesmo tempo em que executa a query
-  $sth->execute();
+ if($sth->execute()) {
   $db->commit();
   $option = base64_encode('cadConfig');
-  header("Location: ../index.php?$option"); 
+  echo "<script>
+  alert('Configuração alterada com sucesso!')
+  window.location.href = '../index.php?$option'
+  </script>";
+}
+else {
+  $db->commit();
+  $option = base64_encode('cadConfig');
+  echo "<script>
+  alert('Houve um problema em atualizar a configuração, por favor contate o administrador do sistema!')
+  window.location.href = '../index.php?$option'
+  </script>";
+}
 ?>

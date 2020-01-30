@@ -190,13 +190,6 @@ $_SESSION['LAST_ACTIVITY'] = time(); // update last activity time
             </a>
           </li>  
           <!-- Aqui termina Simples-->
-          <!-- Aqui começa outro Simples-->   
-          <li class='treeview'>
-            <a href=index.php?" . base64_encode('respondeQuestoes') . ">
-              <i class='fa fa-gears'></i> <span>RESPONDE QUESTAO</span>
-            </a>
-          </li>  
-          <!-- Aqui termina Simples-->
             ";
           }
 
@@ -207,6 +200,10 @@ $_SESSION['LAST_ACTIVITY'] = time(); // update last activity time
 
  <?php
 $option= explode('&', base64_decode(key($_GET)))[0];
+if($_SESSION['userProfile']['level'] == 1)
+  $initialOption = 'welcome.php';
+else
+  $initialOption = 'initailPage.php';
 switch ($option) {
     case "cadQuest":
         require_once ('formCadQuestoes.php');
@@ -241,17 +238,11 @@ switch ($option) {
     case "welcome":
       require_once ('welcome.php');
       break;
-    case "respondeQuestoes":
-      require_once ('paginaQuestoes.php');
-      break;
     case "cadConfig":
       require_once ('formCadConfig.php');
       break;
     default:
-      if($_SESSION['userProfile']['level'] == 1)
-        require_once('initialPage.php');
-      else
-        require_once('initialPage.php');
+      require_once ($initialOption);
       break;
     }
 ?> 
@@ -333,10 +324,9 @@ function populateWeights(selectors, maxWeight) {
 
     
   });
-
-  if(remainingWeight === 0 && $("option[value='']:selected").size() === 0)
+  if(remainingWeight === 0)
   {
-    $("#btn_save_cont").attr("disabled", false);
+    $("#btn_save_cont").prop('disabled', false);
   }
 }
 
@@ -372,8 +362,9 @@ function isNumber(evt) {
 }
 
 $(document).ready(function() {
-  $('#btn_save_cont').prop('disabled', false);
+  $("#btn_save_cont").prop('disabled', true);
   registerEvents($(".peso"));
+
   $('#birth-date').mask('00/00/0000');
   $('#phone').mask('(00) 00000-0000');
   $(".textarea").wysihtml5();
@@ -410,12 +401,12 @@ $('#delete_button').click(function() {
   })
   .done(function(){
     alert('Deletado com sucesso!');
-    var redirect = "<?php echo 'index.php?' . base64_encode('cadQuestoes'); ?>"
+    var redirect = "<?php echo 'index.php?' . base64_encode('cadQuest'); ?>"
     window.location.href = redirect
   })
   .fail(function(){
     alert('Falha ao deletar questao!');
-    window.location.href = "<?php echo 'index.php?' . base64_encode('cadQuestoes'); ?>"
+    window.location.href = "<?php echo 'index.php?' . base64_encode('cadQuest'); ?>"
   })
 });
 
@@ -520,8 +511,8 @@ $('#delete_buttonUser').click(function() {
             { "data": "quest_id"},
             { "data": "question" },
             { "data": "type_desc" },
-            { "data": "class" },
             { "data": "title" },
+            { "data": "class" },
             { "data": null }
         ],
         "columnDefs": [ {
@@ -532,16 +523,12 @@ $('#delete_buttonUser').click(function() {
           {
             'targets': -1, // column index (start from 0)
             'orderable': false
+          },
+          {
+            "targets": [0],
+            "visible": false
           }
         ],
-        "paging": false,
-        "lengthChange": true,
-        "searching": true,
-        "ordering": true,
-        "autoWidth": true,
-        "responsive": true,
-        "info": true,
-        "stateSave": true,
         "dom": 'Bflrtip',
         "buttons": [
           {
@@ -556,7 +543,14 @@ $('#delete_buttonUser').click(function() {
                 columns: [ 1,2,3,4,5,6,7 ]
             }
           }
-        ]
+        ],
+        "paging": true,
+        "lengthChange": true,
+        "searching": true,
+        "ordering": true,
+        "autoWidth": true,
+        "responsive": true,
+        "info": true
   });
 
   $('#tableQuestoes tbody').on( 'click', 'button', function () {
@@ -605,9 +599,27 @@ $('#delete_buttonUser').click(function() {
         "data": null,
         "defaultContent": "<button class='btn-primary btn-flat'>Editar Usuário</button>"
         
-    }
+    },
+    {
+          "targets": [0],
+          "visible": false
+        }
     ],
-    
+    "dom": 'Bflrtip',
+        "buttons": [
+          {
+            extend: 'excelHtml5',
+            exportOptions: {
+                columns: [ 1,2,3,4,5,6,7 ]
+            }
+          },
+          {
+            extend: 'pdfHtml5',
+            exportOptions: {
+                columns: [ 1,2,3,4,5,6,7 ]
+            }
+          }
+        ],
   "paging": true,
   "lengthChange": true,
   "searching": true,

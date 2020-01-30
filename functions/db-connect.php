@@ -1,10 +1,10 @@
 <?php
 $db = "";
-$user = 'mentecina';
+$user = 'acesse74_menteci';
 $pass = 'Mklo0410!@#';
 try
 {
-$db = new PDO('mysql:host=107.180.25.236;dbname=mentecina;charset=utf8', $user, $pass);
+$db = new PDO('mysql:host=br976.hostgator.com.br;dbname=acesse74_mentecina;charset=utf8', $user, $pass);
 $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
 }
 catch(PDOException $e)

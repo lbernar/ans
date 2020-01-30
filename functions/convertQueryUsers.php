@@ -14,7 +14,7 @@ $query = $query->fetchAll(PDO::FETCH_ASSOC);
 foreach($query as $line) {
 
     if($line['level'] == 1)
-        $line['level'] = 'Adminstrador';
+        $line['level'] = 'Administrador';
     else
         $line['level'] = 'Usuário';
     if(empty($line['status']) || $line['status'] == 'P')

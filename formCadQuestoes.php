@@ -35,7 +35,7 @@ include "functions/db-connect.php";
               <form action="functions/addQuestao.php" method="POST" id="form_quest" enctype="multipart/form-data">
                 <div class="form-group ">
                   <label>Número da questão :</label>
-                  <input type="number" required name="num_quest" onkeypress="return isNumber(event)" class="form-control">
+                  <input type="text" required name="num_quest" onkeypress="return isNumber(event)" class="form-control">
                 </div>
                 <div class="form-group">
                   <label>Questão :</label>
@@ -82,7 +82,7 @@ include "functions/db-connect.php";
                       $category = $sth->fetchAll(PDO::FETCH_ASSOC);
 							        for($i=0;$i < count($category); $i++){  
 							      ?>
-							      <option required value="<?=$category[$i]['id'];?>"><?=$category[$i]['class'];?></option>
+							      <option required value="<?=$category[$i]['id'];?>"><?=$category[$i]['class'] . '-' . $category[$i]['sub_class'];?></option>
                     <?php } ?>						
                   </select>
                 </div>
