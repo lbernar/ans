@@ -203,7 +203,7 @@ $option= explode('&', base64_decode(key($_GET)))[0];
 if($_SESSION['userProfile']['level'] == 1)
   $initialOption = 'welcome.php';
 else
-  $initialOption = 'initailPage.php';
+  $initialOption = 'initialPage.php';
 switch ($option) {
     case "cadQuest":
         require_once ('formCadQuestoes.php');
