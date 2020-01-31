@@ -244,6 +244,9 @@ switch ($option) {
     case "respondeQuestoes":
       require_once ('paginaQuestoes.php');
       break;
+    case "finalPage":
+      require_once ('finalPage.php');
+      break;
     default:
       require_once ($initialOption);
       break;
@@ -251,7 +254,7 @@ switch ($option) {
 ?> 
   <footer class="main-footer">
     <div class="pull-right hidden-xs">
-      <b>Version</b> 1.0.0
+      <b>Version</b> 1.9.11
     </div>
     <br>
   </footer>
@@ -408,6 +411,11 @@ $('#form_response').submit(function(){
   }
     
  });
+
+ // single choice questions
+ $('.single').click(function(){
+    $("#btn_save_cont").prop('disabled', false);
+ });
     
 
 $('#delete_button').click(function() {
@@ -529,7 +537,6 @@ $('#delete_buttonUser').click(function() {
             { "data": "question" },
             { "data": "type_desc" },
             { "data": "title" },
-            { "data": "class" },
             { "data": null }
         ],
         "columnDefs": [ {
@@ -609,7 +616,7 @@ $('#delete_buttonUser').click(function() {
         { "data": "email" },
         { "data": "blood_type" },
         { "data": "level" },
-        { "data": "status" },
+        { "data": "status_quest" },
         { "data": null }
     ],
     "columnDefs": [ {

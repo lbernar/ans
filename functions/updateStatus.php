@@ -7,6 +7,7 @@ $lastQuest = $_POST['quest_id'];
 $lastPage = $_POST['page'];
 $quantQuest = $_POST['quant_quest'];
 $nextPage = $lastPage + 1;
+
 if($nextPage >= $quantQuest) {
   $option = base64_encode("finalPage");
   $statusQuest = 'C';
@@ -16,7 +17,7 @@ else {
   $statusQuest = 'S';
 }
 
-$sth = $db->prepare("UPDATE status SET status_quest = :status_quest, last_page = :last_page WHERE user_id = :user_id");
+$sth = $db->prepare("UPDATE users SET status_quest = :status_quest, last_page = :last_page WHERE id = :user_id");
 $sth->bindValue(':user_id', $userId);
 $sth->bindValue(':status_quest', $statusQuest);
 $sth->bindValue(':last_page', $lastPage);
@@ -60,6 +61,9 @@ if(isset($data['peso']) || isset($data['mult']) || isset($data['single'])) {
       $sth->bindValue(':response', $resp);
       $sth->execute();
   }
+  $sth = $db->prepare("UPDATE users SET resp_date = NOW() WHERE id = :user_id");
+  $sth->bindValue(':user_id', $userId);
+  $sth->execute();
 }
 
 $db->commit();

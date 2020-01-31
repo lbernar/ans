@@ -11,6 +11,9 @@ CREATE TABLE `users` (
 `level` int(1) DEFAULT NULL,
 `blood_type` varchar(3) DEFAULT NULL,
 `register_date` VARCHAR(40) DEFAULT NULL,
+`status` CHAR(1) DEFAULT NULL,
+`last_page` INT(11) DEFAULT NULL,
+`resp_date` VARCHAR(40) DEFAULT NULL,
   PRIMARY KEY (`id`)
 )CHARACTER SET 'UTF8';
 
@@ -72,14 +75,6 @@ CREATE TABLE `results` (
 )CHARACTER SET 'UTF8';
 
 DROP TABLE IF EXISTS `status`;
-CREATE TABLE `status` (
-`id` int(11) NOT NULL AUTO_INCREMENT,
-`user_id` int(11) DEFAULT NULL,
-`status_quest` char(1) DEFAULT NULL,
-`last_page` int(11) DEFAULT NULL,
-`resp_date` VARCHAR(40) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-)CHARACTER SET 'UTF8';
 
 DROP TABLE IF EXISTS `config`;
 CREATE TABLE `config` (

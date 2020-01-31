@@ -8,7 +8,7 @@ $db->beginTransaction();
 $result = [];
 // Define your SQL statement //
 //$query = $db->query("SELECT * from sinal")->fetchAll(PDO::FETCH_ASSOC);
-$query = $db->prepare("SELECT id, name, email, level, status, blood_type FROM users");
+$query = $db->prepare("SELECT id, name, email, level, status_quest, blood_type FROM users");
 $query->execute();
 $query = $query->fetchAll(PDO::FETCH_ASSOC);
 foreach($query as $line) {
@@ -17,14 +17,14 @@ foreach($query as $line) {
         $line['level'] = 'Administrador';
     else
         $line['level'] = 'Usuário';
-    if(empty($line['status']) || $line['status'] == 'P')
-        $line['status'] = 'Pendente';
-    elseif($line['status'] == 'S')
-        $line['status'] = 'Iniciado';
-    elseif ($line['status'] == 'C') 
-        $line['status'] = 'Completo';
+    if(empty($line['status_quest']) || $line['status_quest'] == 'P')
+        $line['status_quest'] = 'Pendente';
+    elseif($line['status_quest'] == 'S')
+        $line['status_quest'] = 'Iniciado';
+    elseif ($line['status_quest'] == 'C') 
+        $line['status_quest'] = 'Completo';
     else
-        $line['status'] = 'Sem Status';
+        $line['status_quest'] = 'Sem Status';
         
     array_push($result, $line);
 }

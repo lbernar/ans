@@ -3,14 +3,13 @@ include_once "../functions/db-connect.php";
 
 session_start();
 $userInfo = getUsers($_POST['email'], $db);
-$statusInfo = getStatus($userInfo['id'], $db);
 $_SESSION['LAST_ACTIVITY'] = time(); // update last activity time
 if(isUserRegistered($_POST['email'], $db)) {
   if($_POST['email'] == $userInfo['email'] && $_POST['pass'] == $userInfo['password'] ){
     $_SESSION['userProfile']['user_id'] = $userInfo['id'];
     $_SESSION['userProfile']['email'] = $userInfo['email'];
     $_SESSION['userProfile']['level'] = $userInfo['level'];
-    $_SESSION['userProfile']['last_page'] = $statusInfo['last_page'];
+    $_SESSION['userProfile']['last_page'] = $userInfo['last_page'];
     header('Location:../index.php');
   }
   else 
@@ -36,16 +35,8 @@ function isUserRegistered($email,$db) {
 }
 
 function getUsers($email, $db) {
-  $query = $db->prepare("SELECT id, email, password, level FROM users WHERE email = :email");
+  $query = $db->prepare("SELECT id, email, password, level, last_page, status_quest FROM users WHERE email = :email");
   $query->bindValue(':email', $email);
-  $query->execute();
-  $sql = $query->fetchAll(PDO::FETCH_ASSOC)[0];
-  return $sql;
-}
-
-function getStatus($userId, $db) {
-  $query = $db->prepare("SELECT status_quest, last_page FROM status WHERE user_id = :user_id");
-  $query->bindValue(':user_id', $userId);
   $query->execute();
   $sql = $query->fetchAll(PDO::FETCH_ASSOC)[0];
   return $sql;

@@ -20,6 +20,7 @@ $db->commit();
                     <h3 class="box-title">Bem Vindo(a) ao questionário de análise neurossistêmica</h3>
                 </div>
                 <div class="box-body">
+                <?=print_r($_SESSION)?>
                     <?=$query['ini_msg']?>
                 </div>
                 <!-- /.box-body -->

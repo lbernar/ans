@@ -1,32 +1,27 @@
 <?php 
 include 'functions/db-connect.php';
 $db->beginTransaction();
-// Define your SQL statement //
-$query = $db->prepare("SELECT last_page FROM status");
-$query->execute();
-$lastPage = $query->fetchAll(PDO::FETCH_ASSOC)[0];
-
+$lastPage = $_SESSION['userProfile']['last_page'];
 //Verificar se está sendo passado na URL a página atual, senao é atribuido a pagina 
 $num_pag = str_replace('page=', '', explode('&',base64_decode(key($_GET)))[1]);
 $pagina = (!empty($num_pag) && is_numeric($num_pag)) ? $num_pag : 0;
 
-if($lastPage == $pagina && !empty($lastPage)){
-    $next = $page + 1;
+if($lastPage == $pagina){
+    $next = $pagina + 1;
     $option = base64_encode("respondeQuestoes&page=$next");
     echo "<script>
-    alert('Você já respondeu essa questão, por favor responda a próxima!')
-    window.location.href = 'index.php?$option'
-    </script>"; 
+            window.location.href = 'index.php?$option'
+        </script>"; 
 }
 
 //Contar o total de cursos
-$totalQuestions = $db->prepare("SELECT q.quest_id, q.question, t.type_desc FROM questions AS q 
+$totalQuestions = $db->prepare("SELECT q.quest_id, q.question, t.question_type FROM questions AS q 
                                 INNER JOIN type_questions AS t ON q.type_id = t.id");
 $totalQuestions->execute();
 $totalQuestions = count($totalQuestions->fetchAll(PDO::FETCH_ASSOC));
 
 //Selecionar os cursos a serem apresentado na página
-$resultQuest = $db->prepare("SELECT q.quest_id, q.question, t.type_desc FROM questions AS q 
+$resultQuest = $db->prepare("SELECT q.quest_id, q.question, t.question_type FROM questions AS q 
                             INNER JOIN type_questions AS t ON q.type_id = t.id ORDER BY LENGTH(q.quest_id),q.quest_id LIMIT $pagina, 1");
 $resultQuest->execute();
 $resultQuest = $resultQuest->fetchAll(PDO::FETCH_ASSOC)[0];
@@ -71,7 +66,7 @@ $db->commit();
                                                 $resultAltern->execute();
                                                 $resultAltern = $resultAltern->fetchAll(PDO::FETCH_ASSOC);
                                                 for($i=0;$i<count($resultAltern);$i++):
-                                                    if($resultQuest['type_desc'] == 'Peso'): 
+                                                    if($resultQuest['question_type'] == 'P'): 
                                             ?>
                                                 <div class="form-group" >
                                                     <div>
@@ -96,16 +91,16 @@ $db->commit();
                                                         <option value=15>15</option>
                                                     </select>
                                                 </div>
-                                                <?php elseif($resultQuest['type_desc'] == 'M'): ?>
+                                                <?php elseif($resultQuest['question_type'] == 'M'):?>
                                                     <div class="multipla form-group">
                                                         <input class="form-check-input multiple" type="checkbox" name="mult[]" value="<?=$resultAltern[$i]['alternative_id']?>">
                                                         <label class="form-check-label">
                                                             <?=$resultAltern[$i]['response']?>
                                                         </label>
                                                     </div> 
-                                                <?php elseif($resultQuest['type_desc'] == 'S'): ?>
+                                                <?php elseif($resultQuest['question_type'] == 'S'): ?>
                                                     <div class="single form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" name="single" id="inlineRadio1" value="<?=$resultAltern[$i]['alternative_id']?>" >
+                                                        <input class="form-check-input single" type="radio" name="single" value="<?=$resultAltern[$i]['alternative_id']?>" >
                                                         <label class="form-check-label" for="inlineRadio1"><?=$resultAltern[$i]['response']?></label>
                                                     </div>
                                                 <?php endif;?>

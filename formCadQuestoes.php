@@ -99,7 +99,6 @@ include "functions/db-connect.php";
                   <th>Enunciado</th>
                   <th>Tipo</th>
                   <th>B.U</th>
-                  <th>Categoria</th>
                   <th>Ação</th>
                 </tr>
               </thead>
