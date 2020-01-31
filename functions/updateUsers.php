@@ -6,15 +6,16 @@ $email = $_POST['email'];
 $password = $_POST['password'];
 $phone = $_POST['phone'];
 $level = $_POST['level'];
-
+$bloodType = $_POST['blood_type'];
 $db->beginTransaction();
-$sth = $db->prepare("UPDATE users SET name = :name, email = :email, password = :password, phone = :phone, level = :level WHERE id = :id"); 
+$sth = $db->prepare("UPDATE users SET name = :name, email = :email, password = :password, phone = :phone, blood_type = :blood_type, level = :level WHERE id = :id"); 
 $sth->bindValue(':id', $id);
 $sth->bindValue(':name', $name);
 $sth->bindValue(':email', $email);
 $sth->bindValue(':phone', $phone);
 $sth->bindValue(':password', $password);
 $sth->bindValue(':level', $level);
+$sth->bindValue(':blood_type', $bloodType);
 
 if($sth->execute()) {
   $db->commit();

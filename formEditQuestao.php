@@ -93,21 +93,6 @@ $db->commit();
                     <?php } ?>						
                   </select>
                 </div>
-                <div class="form-group">
-                  <label>Categoria:</label>
-                  <select required name="category" class="form-control">
-                    <option required value="<?=$sql['category_id']?>" selected="selected"><?=$sql['class']?></option>
-                    <option>--------------------------------------------------------------------------</option>
-                    <?php
-                      $sth = $db->prepare("SELECT * FROM categories ORDER BY class ASC");
-                      $sth->execute();
-                      $category = $sth->fetchAll(PDO::FETCH_ASSOC);
-							        for($i=0;$i < count($category); $i++){  
-							      ?>
-							      <option required value="<?=$category[$i]['id'];?>"><?=$category[$i]['class'];?></option>
-                    <?php } ?>						
-                  </select>
-                </div>
                 <!-- /.form group -->
                 <div class="box-footer">
                   <button type="submit" class="btn btn-primary btn-block btn-flat">Salvar</button>

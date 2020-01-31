@@ -7,15 +7,14 @@ $query->execute();
 $sql = $query->fetchAll(PDO::FETCH_ASSOC)[0];
 
 if(count($sql) <= 0) {
-$sth = $db->prepare("INSERT INTO questions (quest_id, question, type_id, bu_id, category_id) 
-VALUES (:quest_id, :question, :type_id, :bu_id, :category_id)");
+$sth = $db->prepare("INSERT INTO questions (quest_id, question, type_id, bu_id) 
+VALUES (:quest_id, :question, :type_id, :bu_id)");
 
 //faço o bind das váriaveis.
 $sth->bindValue(':quest_id', $question_id);
 $sth->bindValue(':question', $_POST['question']);
 $sth->bindValue(':type_id', $_POST['type']);
 $sth->bindValue(':bu_id', $_POST['bu']);
-$sth->bindValue(':category_id', $_POST['category']);
 //Verifico se o registro foi inserido com sucesso ao mesmo tempo em que executa a query
 $sth = $sth->execute();
 $option = base64_encode('cadQuest');

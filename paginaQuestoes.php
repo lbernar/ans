@@ -27,7 +27,7 @@ $totalQuestions = count($totalQuestions->fetchAll(PDO::FETCH_ASSOC));
 
 //Selecionar os cursos a serem apresentado na página
 $resultQuest = $db->prepare("SELECT q.quest_id, q.question, t.type_desc FROM questions AS q 
-                            INNER JOIN type_questions AS t ON q.type_id = t.id LIMIT $pagina, 1");
+                            INNER JOIN type_questions AS t ON q.type_id = t.id ORDER BY LENGTH(q.quest_id),q.quest_id LIMIT $pagina, 1");
 $resultQuest->execute();
 $resultQuest = $resultQuest->fetchAll(PDO::FETCH_ASSOC)[0];
 
@@ -98,8 +98,8 @@ $db->commit();
                                                 </div>
                                                 <?php elseif($resultQuest['type_desc'] == 'M'): ?>
                                                     <div class="multipla form-group">
-                                                        <input class="form-check-input" type="checkbox" name="mult[]" value="<?=$resultAltern[$i]['alternative_id']?>" id="defaultCheck1">
-                                                        <label class="form-check-label" for="defaultCheck1">
+                                                        <input class="form-check-input multiple" type="checkbox" name="mult[]" value="<?=$resultAltern[$i]['alternative_id']?>">
+                                                        <label class="form-check-label">
                                                             <?=$resultAltern[$i]['response']?>
                                                         </label>
                                                     </div> 

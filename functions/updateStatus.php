@@ -7,7 +7,7 @@ $lastQuest = $_POST['quest_id'];
 $lastPage = $_POST['page'];
 $quantQuest = $_POST['quant_quest'];
 $nextPage = $lastPage + 1;
-if($nextPage > $quantQuest) {
+if($nextPage >= $quantQuest) {
   $option = base64_encode("finalPage");
   $statusQuest = 'C';
 } 
@@ -27,24 +27,28 @@ if(isset($data['peso']) || isset($data['mult']) || isset($data['single'])) {
   $sth = $db->prepare("INSERT INTO results (alternative_id, quest_id, user_id, response) VALUES (:alternative_id, :quest_id, :user_id, :response)");
   if(array_key_exists('peso', $data)) {
     foreach($data['peso'] as $key => $value) {
-      $alternativeId = $key;
-      $resp = $value;
-      $sth->bindValue(':user_id', $userId);
-      $sth->bindValue(':alternative_id', $alternativeId);
-      $sth->bindValue(':quest_id', $lastQuest);
-      $sth->bindValue(':response', $resp);
-      $sth->execute();
+      if(!empty($value)) {
+        $alternativeId = $key;
+        $resp = $value;
+        $sth->bindValue(':user_id', $userId);
+        $sth->bindValue(':alternative_id', $alternativeId);
+        $sth->bindValue(':quest_id', $lastQuest);
+        $sth->bindValue(':response', $resp);
+        $sth->execute();
+      }
     }
   }
   elseif(array_key_exists('mult', $data)) {
     foreach($data['mult'] as $value) {
-      $alternativeId = $value;
-      $resp = 1;
-      $sth->bindValue(':user_id', $userId);
-      $sth->bindValue(':alternative_id', $alternativeId);
-      $sth->bindValue(':quest_id', $lastQuest);
-      $sth->bindValue(':response', $resp);
-      $sth->execute();
+      if(!empty($value)) {
+        $alternativeId = $value;
+        $resp = 1;
+        $sth->bindValue(':user_id', $userId);
+        $sth->bindValue(':alternative_id', $alternativeId);
+        $sth->bindValue(':quest_id', $lastQuest);
+        $sth->bindValue(':response', $resp);
+        $sth->execute();
+      }
     }
   }
   elseif(array_key_exists('single', $data)) {

@@ -8,7 +8,7 @@ $db->beginTransaction();
 $result = [];
 // Define your SQL statement //
 //$query = $db->query("SELECT * from sinal")->fetchAll(PDO::FETCH_ASSOC);
-$query = $db->prepare("SELECT id, name, email, level, status FROM users");
+$query = $db->prepare("SELECT id, name, email, level, status, blood_type FROM users");
 $query->execute();
 $query = $query->fetchAll(PDO::FETCH_ASSOC);
 foreach($query as $line) {

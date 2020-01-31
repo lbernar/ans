@@ -72,20 +72,6 @@ include "functions/db-connect.php";
                     <?php } ?>						
                   </select>
                 </div>
-                <div class="form-group">
-                  <label>Categoria:</label>
-                  <select required name="category" class="form-control">
-                    <option selected="selected">Selecione uma categoria...</option>
-                    <?php
-                      $sth = $db->prepare("SELECT * FROM categories ORDER BY class ASC");
-                      $sth->execute();
-                      $category = $sth->fetchAll(PDO::FETCH_ASSOC);
-							        for($i=0;$i < count($category); $i++){  
-							      ?>
-							      <option required value="<?=$category[$i]['id'];?>"><?=$category[$i]['class'] . '-' . $category[$i]['sub_class'];?></option>
-                    <?php } ?>						
-                  </select>
-                </div>
                 <div class="box-footer">
                   <button type="submit" class="btn btn-primary btn-block btn-flat">Salvar</button>
                 </div>

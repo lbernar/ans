@@ -1,9 +1,11 @@
 <?php
 include "db-connect.php";
 $db->beginTransaction();
-
 $userId = $_POST['user_id'];
-$option = base64_encode("respondeQuestoes&page=0");
+if(empty($_POST['last_page']))
+  $option = base64_encode("respondeQuestoes&page=0");
+else
+  $option = base64_encode("respondeQuestoes&page=$_POST[last_page]");
 $statusQuest = 'S';
 
   

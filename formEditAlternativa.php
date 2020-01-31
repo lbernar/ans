@@ -10,7 +10,7 @@ if($_SESSION['userProfile']['level'] == 0) {
 }
 $db->beginTransaction();
 // Define your SQL statement //
-$query = $db->prepare("SELECT asw.id, asw.quest_id, asw.alternative_id, asw.response, q.question FROM alternatives AS asw INNER JOIN questions AS q ON asw.quest_id = q.quest_id WHERE asw.id = :id");
+$query = $db->prepare("SELECT asw.id, asw.quest_id, asw.alternative_id, asw.response, q.question, asw.sub_class FROM alternatives AS asw INNER JOIN questions AS q ON asw.quest_id = q.quest_id WHERE asw.id = :id");
 $query->bindValue(':id', $id);
 $query->execute();
 $sql = $query->fetchAll(PDO::FETCH_ASSOC)[0];
@@ -59,6 +59,22 @@ $db->commit();
 					            for($i=0;$i < count($quest); $i++){  
                     ?>
                     <option required value="<?=$quest[$i]['quest_id'];?>"><?=$quest[$i]['question'];?></option>
+                    <?php } ?>						
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Sub Classe:</label>
+                  <select required name="sub_class" class="form-control">
+                    <option required value="<?=$sql['sub_class']?>" selected="selected"><?=$sql['sub_class']?></option>
+                    <option>--------------------------------------------------------------------------</option>
+                    <?php
+                      include_once "functions/db-connect.php";
+                      $sth = $db->prepare("SELECT sub_class FROM categories ORDER BY id ASC");
+                      $sth->execute();
+                      $subClass = $sth->fetchAll(PDO::FETCH_ASSOC);
+					            for($i=0;$i < count($subClass); $i++){  
+                    ?>
+                    <option required value="<?=$subClass[$i]['sub_class'];?>"><?=$subClass[$i]['sub_class'];?></option>
                     <?php } ?>						
                   </select>
                 </div>

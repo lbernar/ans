@@ -241,6 +241,9 @@ switch ($option) {
     case "cadConfig":
       require_once ('formCadConfig.php');
       break;
+    case "respondeQuestoes":
+      require_once ('paginaQuestoes.php');
+      break;
     default:
       require_once ($initialOption);
       break;
@@ -391,7 +394,21 @@ $('#form_response').submit(function(){
   });
   return false;
 });
-
+ // multiple choice questions
+ $('.multiple').click(function(){
+  if($('.multiple:checked').size() === 4) {
+    $("#btn_save_cont").prop('disabled', false);
+  }
+  else if($('.multiple:checked').size() > 4){
+    $("#btn_save_cont").prop('disabled', true);
+    alert('É permitido apenas selecionar 4 alternativas!')
+  }
+  else {
+    $("#btn_save_cont").prop('disabled', true);
+  }
+    
+ });
+    
 
 $('#delete_button').click(function() {
   $.ajax({
@@ -590,6 +607,7 @@ $('#delete_buttonUser').click(function() {
         { "data": "id"},
         { "data": "name" },
         { "data": "email" },
+        { "data": "blood_type" },
         { "data": "level" },
         { "data": "status" },
         { "data": null }
@@ -666,6 +684,7 @@ $('#delete_buttonUser').click(function() {
             { "data": "id"},
             { "data": "quest_id" },
             { "data": "alternative_id" },
+            { "data": "sub_class" },
             { "data": "response" },
             { "data": "type_desc"},
             { "data": null }

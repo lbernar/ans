@@ -97,6 +97,7 @@
                         <th>ID</th>
                         <th>Nome do Usuário</th>
                         <th>E-mail</th>
+                        <th>Tipo Sanguíneo</th>
                         <th>Nível de Acesso</th>
                         <th>Status de Resposta</th>
                         <th>Ação</th>

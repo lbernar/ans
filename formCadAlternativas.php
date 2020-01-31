@@ -46,6 +46,21 @@ if($_SESSION['userProfile']['level'] == 0) {
                     <?php } ?>						
                   </select>
                 </div>
+                <div class="form-group">
+                  <label>Sub Classe:</label>
+                  <select required name="sub_class" class="form-control">
+                    <option selected="selected">Selecione uma sub classe...</option>
+                    <?php
+                      include_once "functions/db-connect.php";
+                      $sth = $db->prepare("SELECT id, sub_class FROM categories ORDER BY id ASC");
+                      $sth->execute();
+                      $subClass = $sth->fetchAll(PDO::FETCH_ASSOC);
+					            for($i=0;$i < count($subClass); $i++){  
+                    ?>
+                    <option required value="<?=$subClass[$i]['sub_class'];?>"><?=$subClass[$i]['sub_class'];?></option>
+                    <?php } ?>						
+                  </select>
+                </div>
                 <div class="form-group ">
                   <label>Número da alternativa :</label>
                   <input type="text" required name="alternative_id" onkeypress="return isNumber(event)" class="form-control">
@@ -80,9 +95,10 @@ if($_SESSION['userProfile']['level'] == 0) {
             <table id="tableAlternativas" class="table table-striped table-bordered table-condensed" cellspacing="0" width="100%">
               <thead>
                 <tr>
-                  <th>ID Interno</th>
+                  <th>ID</th>
                   <th>ID Questão</th>
                   <th>ID Alternativa</th>
+                  <th>Sub Classe</th>
                   <th>Enunciado</th>
                   <th>Tipo</th>
                   <th>Ação</th>

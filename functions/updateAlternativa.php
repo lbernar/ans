@@ -3,10 +3,11 @@ include "db-connect.php";
 $id = $_POST['id'];
 $alternativeId = 'A' . $_POST['alternative_id'];
 $db->beginTransaction();
-$sth = $db->prepare("UPDATE alternatives SET quest_id = :quest_id, alternative_id = :alternative_id, response = :response WHERE id = :id");
+$sth = $db->prepare("UPDATE alternatives SET quest_id = :quest_id, sub_class = :sub_class, alternative_id = :alternative_id, response = :response WHERE id = :id");
 //faço o bind das váriaveis.
   $sth->bindValue(':id', $id);
   $sth->bindValue(':quest_id', $_POST['quest_id']);
+  $sth->bindValue(':sub_class', $_POST['sub_class']);
   $sth->bindValue(':alternative_id', $alternativeId);
   $sth->bindValue(':response', $_POST['response']);
 
