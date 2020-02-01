@@ -10,6 +10,7 @@ if(isUserRegistered($_POST['email'], $db)) {
     $_SESSION['userProfile']['email'] = $userInfo['email'];
     $_SESSION['userProfile']['level'] = $userInfo['level'];
     $_SESSION['userProfile']['last_page'] = $userInfo['last_page'];
+    $_SESSION['userProfile']['status_quest'] = $userInfo['status_quest'];
     header('Location:../index.php');
   }
   else 

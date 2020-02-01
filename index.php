@@ -617,12 +617,19 @@ $('#delete_buttonUser').click(function() {
         { "data": "blood_type" },
         { "data": "level" },
         { "data": "status_quest" },
+        { "data": null },
         { "data": null }
     ],
     "columnDefs": [ {
+        "targets": [6],
+        "data": null,
+        "defaultContent": "<button class='bnt_edit_user btn-primary btn-flat'>Editar Usuário</button>"
+        
+    },
+    {
         "targets": -1,
         "data": null,
-        "defaultContent": "<button class='btn-primary btn-flat'>Editar Usuário</button>"
+        "defaultContent": "<button class='btn_report btn-primary btn-flat'>Download Relatório</button>"
         
     },
     {
@@ -653,9 +660,13 @@ $('#delete_buttonUser').click(function() {
   "responsive": true,
   "info": true
 } );
-    $('#tableUsers tbody').on( 'click', 'button', function () {
+      $('#tableUsers tbody').on( 'click', 'button.bnt_edit_user', function () {
           var data = listaUsers.row( $(this).parents('tr') ).data();
           window.location.href = 'index.php?<?php echo base64_encode('editUsers');?>&id=' + data['id'];
+      });
+      $('#tableUsers tbody').on( 'click', 'button.btn_report', function () {
+        var data = listaUsers.row( $(this).parents('tr') ).data();
+        window.open('functions/generateReport.php?id=' + data['id'],'_blank');
       });
 
      var alternativas =  $('#tableAlternativas').DataTable( {

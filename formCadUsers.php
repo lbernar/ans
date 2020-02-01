@@ -101,6 +101,7 @@
                         <th>Nível de Acesso</th>
                         <th>Status de Resposta</th>
                         <th>Ação</th>
+                        <th>Relatório</th>
                       </tr>
                     </thead>
                   </table>

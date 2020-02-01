@@ -10,10 +10,9 @@ if($_SESSION['userProfile']['level'] == 0) {
 }
 $db->beginTransaction();
 // Define your SQL statement //
-$query = $db->prepare("SELECT quest.id, quest.quest_id, quest.question, tq.type_desc, tq.id AS type_id, cat.class, cat.id AS category_id,  bu.id AS bu_id, bu.title 
+$query = $db->prepare("SELECT quest.id, quest.quest_id, quest.question, tq.type_desc, tq.id AS type_id, bu.id AS bu_id, bu.title 
 FROM questions AS quest 
 INNER JOIN type_questions AS tq ON tq.id = quest.type_id
-INNER JOIN categories AS cat ON cat.id = quest.category_id 
 INNER JOIN business_unit AS bu ON quest.bu_id = bu.id
  WHERE quest.quest_id = :id");
 $query->bindValue(':id', $id);

@@ -1,12 +1,19 @@
 <?php 
 include 'functions/db-connect.php';
 $db->beginTransaction();
-$lastPage = $_SESSION['userProfile']['last_page'];
+$userId = $_SESSION['userProfile']['user_id'];
+$statusQuest = $db->prepare("SELECT status_quest, last_page FROM users WHERE id = :user_id");
+$statusQuest->bindValue(':user_id', $userId);
+$statusQuest->execute();
+$statusQuest = $statusQuest->fetchAll(PDO::FETCH_ASSOC)[0];
+
+$lastPage = $statusQuest['last_page'];
+$statusQuest = $statusQuest['status_quest'];
 //Verificar se está sendo passado na URL a página atual, senao é atribuido a pagina 
 $num_pag = str_replace('page=', '', explode('&',base64_decode(key($_GET)))[1]);
 $pagina = (!empty($num_pag) && is_numeric($num_pag)) ? $num_pag : 0;
 
-if($lastPage == $pagina){
+if(($pagina <= $lastPage) && $statusQuest == 'S'){
     $next = $pagina + 1;
     $option = base64_encode("respondeQuestoes&page=$next");
     echo "<script>
@@ -38,7 +45,7 @@ $db->commit();
                 <input type="hidden" name="page" value="<?=$pagina?>">
                 <input type="hidden" name="quant_quest" value="<?=$totalQuestions?>">
                 <input type="hidden" name="quest_id" value="<?=$resultQuest['quest_id']?>">
-                <input type="hidden" name="user_id" value="<?=$_SESSION['userProfile']['user_id']?>">
+                <input type="hidden" name="user_id" value="<?=$userId?>">
                 <div class="box-body">
                     <section class="content-header">
                         <!-- row -->

@@ -1,5 +1,11 @@
 <?php 
 include 'functions/db-connect.php';
+if($_SESSION['userProfile']['status_quest'] == 'C') {
+    $option = base64_encode("finalPage");
+    echo "<script>
+            window.location.href = 'index.php?$option'
+        </script>"; 
+ }
 $db->beginTransaction();
 // Define your SQL statement //
 $query = $db->prepare("SELECT ini_msg FROM config");
@@ -20,7 +26,6 @@ $db->commit();
                     <h3 class="box-title">Bem Vindo(a) ao questionário de análise neurossistêmica</h3>
                 </div>
                 <div class="box-body">
-                <?=print_r($_SESSION)?>
                     <?=$query['ini_msg']?>
                 </div>
                 <!-- /.box-body -->
