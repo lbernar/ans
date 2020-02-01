@@ -254,7 +254,7 @@ switch ($option) {
 ?> 
   <footer class="main-footer">
     <div class="pull-right hidden-xs">
-      <b>Version</b> 1.9.11
+      <b>Version</b> 1.9.12
     </div>
     <br>
   </footer>
