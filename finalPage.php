@@ -2,7 +2,7 @@
 include 'functions/db-connect.php';
 $db->beginTransaction();
 // Define your SQL statement //
-$query = $db->prepare("SELECT ini_msg FROM config");
+$query = $db->prepare("SELECT final_msg FROM config");
 $query->execute();
 $query = $query->fetchAll(PDO::FETCH_ASSOC)[0];
 $db->commit();

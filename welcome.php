@@ -33,6 +33,7 @@ $db->commit();
                                 <th>Status de Resposta</th>
                                 <th>Ação</th>
                                 <th>Relatório</th>
+                                <th>Enviar E-mail</th>
                             </tr>
                             </thead>
                         </table>

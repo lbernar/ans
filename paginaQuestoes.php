@@ -13,9 +13,15 @@ $statusQuest = $statusQuest['status_quest'];
 $num_pag = str_replace('page=', '', explode('&',base64_decode(key($_GET)))[1]);
 $pagina = (!empty($num_pag) && is_numeric($num_pag)) ? $num_pag : 0;
 
-if(($pagina <= $lastPage) && $statusQuest == 'S'){
+if(($pagina <= $lastPage) && $statusQuest == 'S') {
     $next = $pagina + 1;
     $option = base64_encode("respondeQuestoes&page=$next");
+    echo "<script>
+            window.location.href = 'index.php?$option'
+        </script>"; 
+}
+elseif(($pagina <= $lastPage) && $statusQuest == 'C') {
+    $option = base64_encode("finalPage");
     echo "<script>
             window.location.href = 'index.php?$option'
         </script>"; 
@@ -65,7 +71,7 @@ $db->commit();
                                 </div>
                                 <div class="box-body">
                                     <div class="form-group">
-                                        <div class="col-md-3">
+                                        <div class="col-md-7">
                                             <h4><label>Afirmações :</label></h4>
                                             <?php
                                                 $resultAltern = $db->prepare("SELECT quest_id, alternative_id, response FROM alternatives WHERE quest_id = :quest_id ORDER BY id ASC");
@@ -125,7 +131,7 @@ $db->commit();
                 </div>
                 <!-- /.box-body -->
                 <div class="box-footer">
-                    <button id='btn_save_cont' disabled='disabled' class='btn-primary btn-flat pull-right'>Salvar e Continuar</button>
+                    <button id='btn_save_cont' disabled='disabled' class='btn btn-primary btn-flat pull-right'>Salvar e Continuar</button>
                 </div>
             </form>
         <!-- /.box-footer-->

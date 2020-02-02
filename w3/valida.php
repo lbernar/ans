@@ -17,7 +17,7 @@ if(isUserRegistered($_POST['email'], $db)) {
     expulsaVisitante("Usuário ou senha inválidos, por favor verifique. Caso persista entre em contato com adminstrador.");
 }
 else 
-  expulsaVisitante("Usuário não cadastrado na plataforma, por favor entre em contato com administrador.");
+  expulsaVisitante("Usuário ou senha inválidos, por favor verifique. Caso persista entre em contato com adminstrador.");
 
 ####################funcao php###############
 function isMail($mail, $use_DNS = false){

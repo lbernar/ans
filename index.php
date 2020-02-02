@@ -405,6 +405,7 @@ $('#form_response').submit(function(){
   else if($('.multiple:checked').size() > 4){
     $("#btn_save_cont").prop('disabled', true);
     alert('É permitido apenas selecionar 4 alternativas!')
+    $('.multiple:checked').prop("checked", false);
   }
   else {
     $("#btn_save_cont").prop('disabled', true);
@@ -553,21 +554,6 @@ $('#delete_buttonUser').click(function() {
             "visible": false
           }
         ],
-        "dom": 'Bflrtip',
-        "buttons": [
-          {
-            extend: 'excelHtml5',
-            exportOptions: {
-                columns: [ 1,2,3,4,5,6,7 ]
-            }
-          },
-          {
-            extend: 'pdfHtml5',
-            exportOptions: {
-                columns: [ 1,2,3,4,5,6,7 ]
-            }
-          }
-        ],
         "paging": true,
         "lengthChange": true,
         "searching": true,
@@ -618,40 +604,29 @@ $('#delete_buttonUser').click(function() {
         { "data": "level" },
         { "data": "status_quest" },
         { "data": null },
+        { "data": null },
         { "data": null }
     ],
     "columnDefs": [ {
         "targets": [6],
         "data": null,
         "defaultContent": "<button class='bnt_edit_user btn-primary btn-flat'>Editar Usuário</button>"
-        
+    },
+    {
+        "targets": [7],
+        "data": null,
+        "defaultContent": "<button class='btn_report btn-primary btn-flat'>Download Relatório</button>"
     },
     {
         "targets": -1,
         "data": null,
-        "defaultContent": "<button class='btn_report btn-primary btn-flat'>Download Relatório</button>"
-        
+        "defaultContent": "<button class='btn_mail btn-success btn-flat'>Enviar E-mail</button>"
     },
     {
           "targets": [0],
           "visible": false
         }
     ],
-    "dom": 'Bflrtip',
-        "buttons": [
-          {
-            extend: 'excelHtml5',
-            exportOptions: {
-                columns: [ 1,2,3,4,5,6,7 ]
-            }
-          },
-          {
-            extend: 'pdfHtml5',
-            exportOptions: {
-                columns: [ 1,2,3,4,5,6,7 ]
-            }
-          }
-        ],
   "paging": true,
   "lengthChange": true,
   "searching": true,
@@ -668,6 +643,21 @@ $('#delete_buttonUser').click(function() {
         var data = listaUsers.row( $(this).parents('tr') ).data();
         window.open('functions/generateReport.php?id=' + data['id'],'_blank');
       });
+      $('#tableUsers tbody').on( 'click', 'button.btn_mail', function () {
+        var data = listaUsers.row( $(this).parents('tr') ).data();
+        $.ajax({
+          url: 'functions/sendMail.php',
+          type: 'POST',
+          data: {email : data['email'], name : data['name']}
+        })
+        .done(function(data){
+          alert(data);
+        })
+        .fail(function(){
+          alert('Falha ao enviar e-mail!');
+        })
+      });
+
 
      var alternativas =  $('#tableAlternativas').DataTable( {
       "ajax": {
@@ -716,21 +706,6 @@ $('#delete_buttonUser').click(function() {
           "targets": [0],
           "visible": false
         }
-        ],
-        "dom": 'Bflrtip',
-        "buttons": [
-          {
-            extend: 'excelHtml5',
-            exportOptions: {
-                columns: [ 1,2,3,4,5,6,7 ]
-            }
-          },
-          {
-            extend: 'pdfHtml5',
-            exportOptions: {
-                columns: [ 1,2,3,4,5,6,7 ]
-            }
-          }
         ],
       "paging": true,
       "lengthChange": true,
@@ -790,21 +765,6 @@ $('#delete_buttonUser').click(function() {
           "visible": false
         }
         ],
-        "dom": 'Bflrtip',
-        "buttons": [
-          {
-            extend: 'excelHtml5',
-            exportOptions: {
-                columns: [ 1,2,3,4,5,6,7 ]
-            }
-          },
-          {
-            extend: 'pdfHtml5',
-            exportOptions: {
-                columns: [ 1,2,3,4,5,6,7 ]
-            }
-          }
-        ],
       "paging": true,
       "lengthChange": true,
       "searching": true,
@@ -861,21 +821,6 @@ $('#delete_buttonUser').click(function() {
           "targets": [0],
           "visible": false
         }
-        ],
-        "dom": 'Bflrtip',
-        "buttons": [
-          {
-            extend: 'excelHtml5',
-            exportOptions: {
-                columns: [ 1,2,3,4,5,6,7 ]
-            }
-          },
-          {
-            extend: 'pdfHtml5',
-            exportOptions: {
-                columns: [ 1,2,3,4,5,6,7 ]
-            }
-          }
         ],
       "paging": true,
       "lengthChange": true,
