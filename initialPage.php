@@ -22,6 +22,7 @@ $db->commit();
             <form action="functions/updateInitialPage.php" method="POST" class="form form-horizontal" enctype="multipart/form-data">
                 <input type="hidden" name="user_id" value="<?=$_SESSION['userProfile']['user_id']?>">
                 <input type="hidden" name="last_page" value="<?=$_SESSION['userProfile']['last_page']?>">
+                <input type="hidden" name="status_quest" value="<?=$_SESSION['userProfile']['status_quest']?>">
                 <div class="box-header with-border">
                     <h3 class="box-title">Bem Vindo(a) ao questionário de análise neurossistêmica</h3>
                 </div>

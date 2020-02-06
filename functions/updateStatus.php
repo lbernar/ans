@@ -17,10 +17,11 @@ else {
   $statusQuest = 'S';
 }
 
-$sth = $db->prepare("UPDATE users SET status_quest = :status_quest, last_page = :last_page WHERE id = :user_id");
+$sth = $db->prepare("UPDATE users SET status_quest = :status_quest, last_page = :last_page, last_quest = :last_quest WHERE id = :user_id");
 $sth->bindValue(':user_id', $userId);
 $sth->bindValue(':status_quest', $statusQuest);
 $sth->bindValue(':last_page', $lastPage);
+$sth->bindValue(':last_quest', $lastQuest);
 $sth->execute();
 
 $data = $_POST;

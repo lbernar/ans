@@ -2,19 +2,21 @@
 include 'functions/db-connect.php';
 $db->beginTransaction();
 $userId = $_SESSION['userProfile']['user_id'];
-$statusQuest = $db->prepare("SELECT status_quest, last_page FROM users WHERE id = :user_id");
+$statusQuest = $db->prepare("SELECT status_quest, last_page, last_quest FROM users WHERE id = :user_id");
 $statusQuest->bindValue(':user_id', $userId);
 $statusQuest->execute();
 $statusQuest = $statusQuest->fetchAll(PDO::FETCH_ASSOC)[0];
 
+$lastQuest = $statusQuest['last_quest'];
 $lastPage = $statusQuest['last_page'];
 $statusQuest = $statusQuest['status_quest'];
+
 //Verificar se está sendo passado na URL a página atual, senao é atribuido a pagina 
 $num_pag = str_replace('page=', '', explode('&',base64_decode(key($_GET)))[1]);
 $pagina = (!empty($num_pag) && is_numeric($num_pag)) ? $num_pag : 0;
 
-if(($pagina <= $lastPage) && $statusQuest == 'S') {
-    $next = $pagina + 1;
+if(($pagina <= $lastPage) && $statusQuest == 'S' && !empty($lastQuest)) {
+    $next = $lastPage + 1;
     $option = base64_encode("respondeQuestoes&page=$next");
     echo "<script>
             window.location.href = 'index.php?$option'
