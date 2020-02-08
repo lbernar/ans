@@ -9,11 +9,12 @@ CREATE TABLE `users` (
 `password` varchar(40) DEFAULT NULL,
 `phone` varchar(40) DEFAULT NULL,
 `level` int(1) DEFAULT NULL,
-`blood_type` varchar(3) DEFAULT NULL,
+`blood_type` char(1) DEFAULT NULL,
 `register_date` VARCHAR(40) DEFAULT NULL,
-`status` CHAR(1) DEFAULT NULL,
-`last_page` INT(11) DEFAULT NULL,
 `resp_date` VARCHAR(40) DEFAULT NULL,
+`status_quest` CHAR(1) DEFAULT NULL,
+`last_page` INT(11) DEFAULT NULL,
+`last_quest` VARCHAR(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 )CHARACTER SET 'UTF8';
 
@@ -74,12 +75,11 @@ CREATE TABLE `results` (
   PRIMARY KEY (`id`)
 )CHARACTER SET 'UTF8';
 
-DROP TABLE IF EXISTS `status`;
-
 DROP TABLE IF EXISTS `config`;
 CREATE TABLE `config` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `ini_msg` LONGTEXT,
 `final_msg` LONGTEXT,
+`logo` LONGTEXT,
   PRIMARY KEY (`id`)
 )CHARACTER SET 'UTF8';

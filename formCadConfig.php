@@ -57,6 +57,23 @@ $db->commit();
                       </textarea>
                   </div>
                 </div>
+                <div class="form-group">
+                  <label>Subir Logo :</label>
+                  <input type="file" name="logo" id="file" class="">
+                  <input type="hidden" name="rotation" id="rotation" value="0"/>
+                </div>
+                <div id="logo_atual" class="form-group">
+                  <div>
+                    <label>Logo :</label>
+                  </div>
+                  <div class="image">
+                    <div class="form-group">
+                      <button id="rleft">Girar a esquerda</button>
+                      <button id="rright">Girar a direita</button>
+                    </div>
+                    <div id="imgPreview" ></div>
+                  </div>
+                </div>
                 <div class="box-footer">
                   <button type="submit" class="btn btn-primary btn-block btn-flat">Salvar</button>
                 </div>

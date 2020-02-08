@@ -36,7 +36,7 @@ $totalQuestions->execute();
 $totalQuestions = count($totalQuestions->fetchAll(PDO::FETCH_ASSOC));
 
 //Selecionar os cursos a serem apresentado na página
-$resultQuest = $db->prepare("SELECT q.quest_id, q.question, t.question_type FROM questions AS q 
+$resultQuest = $db->prepare("SELECT q.id, q.quest_id, q.question, t.question_type FROM questions AS q 
                             INNER JOIN type_questions AS t ON q.type_id = t.id ORDER BY LENGTH(q.quest_id),q.quest_id LIMIT $pagina, 1");
 $resultQuest->execute();
 $resultQuest = $resultQuest->fetchAll(PDO::FETCH_ASSOC)[0];
@@ -54,6 +54,7 @@ $db->commit();
                 <input type="hidden" name="quant_quest" value="<?=$totalQuestions?>">
                 <input type="hidden" name="quest_id" value="<?=$resultQuest['quest_id']?>">
                 <input type="hidden" name="user_id" value="<?=$userId?>">
+                <input type="hidden" name="id" value="<?=$resultQuest['id']?>">
                 <div class="box-body">
                     <section class="content-header">
                         <!-- row -->
@@ -65,15 +66,17 @@ $db->commit();
                                 <!-- /.box-header -->
                                 <div class="box-body">
                                     <div class="form-group ">
-                                        <h4><label>Questão :</label></h4>
-                                        <div>
-                                            <?=$resultQuest['question']?>
+                                        <div class="col-md-7">
+                                            <h4><label>Questão :</label></h4>
+                                            <div>
+                                                <?=$resultQuest['question']?>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="box-body">
                                     <div class="form-group">
-                                        <div class="col-md-7">
+                                        <div class="col-md-9">
                                             <h4><label>Afirmações :</label></h4>
                                             <?php
                                                 $resultAltern = $db->prepare("SELECT quest_id, alternative_id, response FROM alternatives WHERE quest_id = :quest_id ORDER BY id ASC");
@@ -83,28 +86,30 @@ $db->commit();
                                                 for($i=0;$i<count($resultAltern);$i++):
                                                     if($resultQuest['question_type'] == 'P'): 
                                             ?>
-                                                <div class="form-group" >
-                                                    <div>
-                                                        <?=$resultAltern[$i]['response']?>
+                                                <div class="col-md-9">
+                                                    <div class="form-group" >
+                                                        <div>
+                                                            <?=$resultAltern[$i]['response']?>
+                                                        </div>
+                                                        <select class="peso form-control" name="peso[<?=$resultAltern[$i]['alternative_id']?>]">
+                                                            <option value="" selected="selected">Selecione um peso...</option>
+                                                            <option value=1>1</option>
+                                                            <option value=2>2</option>
+                                                            <option value=3>3</option>
+                                                            <option value=4>4</option>
+                                                            <option value=5>5</option>
+                                                            <option value=6>6</option>
+                                                            <option value=7>7</option>
+                                                            <option value=8>8</option>
+                                                            <option value=9>9</option>
+                                                            <option value=10>10</option>
+                                                            <option value=11>11</option>
+                                                            <option value=12>12</option>
+                                                            <option value=13>13</option>
+                                                            <option value=14>14</option>
+                                                            <option value=15>15</option>
+                                                        </select>
                                                     </div>
-                                                    <select class="peso form-control" name="peso[<?=$resultAltern[$i]['alternative_id']?>]">
-                                                        <option value="" selected="selected">Selecione um peso...</option>
-                                                        <option value=1>1</option>
-                                                        <option value=2>2</option>
-                                                        <option value=3>3</option>
-                                                        <option value=4>4</option>
-                                                        <option value=5>5</option>
-                                                        <option value=6>6</option>
-                                                        <option value=7>7</option>
-                                                        <option value=8>8</option>
-                                                        <option value=9>9</option>
-                                                        <option value=10>10</option>
-                                                        <option value=11>11</option>
-                                                        <option value=12>12</option>
-                                                        <option value=13>13</option>
-                                                        <option value=14>14</option>
-                                                        <option value=15>15</option>
-                                                    </select>
                                                 </div>
                                                 <?php elseif($resultQuest['question_type'] == 'M'):?>
                                                     <div class="multipla form-group">

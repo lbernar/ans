@@ -62,15 +62,11 @@
                 <div class="form-group">
                   <label>Tipo Sanguíneo:</label>
                   <select required name="blood_type" class="form-control">
-                    <option required selected="selected">Selecione um tipo sanguíneo...</option>
-                    <option value="A+">A+</option>
-                    <option value="A-">A-</option>
-                    <option value="B+">B+</option>
-                    <option value="B-">B-</option>
-                    <option value="AB+">AB+</option>
-                    <option value="AB-">AB-</option>
-                    <option value="O+">O+</option>
-                    <option value="O-">O-</option>
+                    <option selected="selected">Selecione um tipo sanguíneo...</option>
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="AB">AB</option>
+                    <option value="O">O</option>
                   </select>
                 </div>
               <!-- /.form group -->
@@ -100,6 +96,7 @@
                         <th>Tipo Sanguíneo</th>
                         <th>Nível de Acesso</th>
                         <th>Status de Resposta</th>
+                        <th>Data/Hora Conclusão</th>
                         <th>Ação</th>
                         <th>Relatório</th>
                         <th>Enviar E-mail</th>

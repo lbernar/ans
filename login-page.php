@@ -3,7 +3,14 @@
 #Error Dumps
 error_reporting(E_ALL ^ E_NOTICE);
 ini_set( "display_errors", 0);
-
+include "functions/db-connect.php";
+$db->beginTransaction();
+// Define your SQL statement //
+$query = $db->prepare("SELECT logo FROM config");
+$query->execute();
+$sql = $query->fetchAll(PDO::FETCH_ASSOC)[0];
+$db->commit();
+$logo = 'images/' . $sql['logo'];
 ?>
 <!DOCTYPE html>
 <html>
@@ -33,10 +40,13 @@ ini_set( "display_errors", 0);
 </head>
 <body class="hold-transition login-page">
 <div class="login-box">
+<div class="login-logo">
+    <img src="<?=$logo?>" class="img-circle pic-view" width="150px" height="150px" alt="User Image"/>
+  </div>
   <div class="login-logo">
 	<a href="#"><b>Análise Neurossistêmica</b>
   </div>
- 
+  
   <!-- /.login-logo -->
   <div class="login-box-body">
     <p class="login-box-msg">Faça o login com seu email cadastrado para iniciar sua sessão</p>

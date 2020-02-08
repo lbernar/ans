@@ -7,6 +7,7 @@ $lastQuest = $_POST['quest_id'];
 $lastPage = $_POST['page'];
 $quantQuest = $_POST['quant_quest'];
 $nextPage = $lastPage + 1;
+$lastQuestId = $_POST['id'];
 
 if($nextPage >= $quantQuest) {
   $option = base64_encode("finalPage");
@@ -17,6 +18,15 @@ else {
   $statusQuest = 'S';
 }
 
+$sth = $db->prepare("SELECT q.id AS last_user_quest FROM questions AS q INNER JOIN users AS u ON u.last_quest = q.quest_id WHERE u.id = :userId");
+$sth->bindValue(':userId', $userId);
+$sth->execute();
+$lastQuestUser = $sth->fetchAll(PDO::FETCH_ASSOC)[0]['last_user_quest'];
+
+if($lastQuestId <= $lastQuestUser) {
+  echo md5('logout');
+  exit;
+}
 $sth = $db->prepare("UPDATE users SET status_quest = :status_quest, last_page = :last_page, last_quest = :last_quest WHERE id = :user_id");
 $sth->bindValue(':user_id', $userId);
 $sth->bindValue(':status_quest', $statusQuest);

@@ -142,6 +142,14 @@ $_SESSION['LAST_ACTIVITY'] = time(); // update last activity time
   <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
+      <div class="user-panel">
+        <div class="pull-left image">
+          <img class="img-circle" src="<?=$_SESSION['logo']?>" alt="User Image">
+        </div>
+        <div class="pull-left info">
+          <p>Análise Neurossistêmica</p>
+        </div>
+      </div>
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu">
       <?php 
@@ -254,7 +262,7 @@ switch ($option) {
 ?> 
   <footer class="main-footer">
     <div class="pull-right hidden-xs">
-      <b>Version</b> 1.10.16
+      <b>Version</b> 1.11.18
     </div>
     <br>
   </footer>
@@ -370,7 +378,7 @@ function isNumber(evt) {
 $(document).ready(function() {
   $("#btn_save_cont").prop('disabled', true);
   registerEvents($(".peso"));
-
+  $('#imgPreview').after('<img src="<?=$_SESSION['logo']?>" class="img-circle pic-view" width="300px" height="300px" alt="User Image"/>');
   $('#birth-date').mask('00/00/0000');
   $('#phone').mask('(00) 00000-0000');
   $(".textarea").wysihtml5();
@@ -383,6 +391,54 @@ $(document).ready(function() {
         'numbers':   true,
         'specialChars': false
     });
+    
+function filePreview(input) {
+  if (input.files && input.files[0]) {
+      var reader = new FileReader();
+      reader.onload = function (e) {
+          $('#imgPreview + img').remove();
+          $('#imgPreview').after('<img src="'+e.target.result+'" class="img-circle pic-view" width="300px" height="300px" alt="User Image"/>');
+      };
+      reader.readAsDataURL(input.files[0]);
+      $('.img-preview').show();
+  }else{
+      $('#imgPreview + img').remove();
+      $('.img-preview').hide();
+  }
+}
+
+$("#file").change(function (){
+    // Image preview
+    $('#logo_atual').show();
+    filePreview(this);
+});
+
+$(function() {
+    var rotation = 0;
+    $("#rleft").click(function() {
+        rotation = (rotation -90) % 360;
+        $(".pic-view").css({'transform': 'rotate('+rotation+'deg)'});
+		
+        if(rotation != 0){
+            $(".pic-view").css({'width': '300px', 'height': '300px'});
+        }else{
+            $(".pic-view").css({'width': '300px', 'height': '300px'});
+        }
+        $('#rotation').val(rotation);
+    });
+	
+    $("#rright").click(function() {
+        rotation = (rotation + 90) % 360;
+        $(".pic-view").css({'transform': 'rotate('+rotation+'deg)'});
+		
+        if(rotation != 0){
+            $(".pic-view").css({'width': '300px', 'height': '300px'});
+        }else{
+            $(".pic-view").css({'width': '300px', 'height': '300px'});
+        }
+        $('#rotation').val(rotation);
+    });
+});
 
 $('#form_response').submit(function(){
   var dados = $( this ).serialize();
@@ -392,6 +448,11 @@ $('#form_response').submit(function(){
     data: dados,
     success: function( data )
     {
+      if(data == "<?=md5('logout')?>") {
+        alert('Questão já respondida, por favor, faça o login novamente e responda a questão correta!');
+        window.location.href = 'logout.php'
+      }
+      console.log(data)
       window.location.href = 'index.php?' + data
     }
   });
@@ -603,17 +664,30 @@ $('#delete_buttonUser').click(function() {
         { "data": "blood_type" },
         { "data": "level" },
         { "data": "status_quest" },
+        { "data": "resp_date" },
         { "data": null },
         { "data": null },
         { "data": null }
     ],
+    "createdRow": function( row, data, dataIndex){
+      if( data['status_quest'] == 'Pendente'){
+          $(row).addClass('danger');
+      }
+      else if(data['status_quest'] == 'Iniciado') {
+        $(row).addClass('warning');
+      }
+      else {
+        $(row).addClass('success');
+      }
+        
+    },
     "columnDefs": [ {
-        "targets": [6],
+        "targets": [7],
         "data": null,
         "defaultContent": "<button class='bnt_edit_user btn-primary btn-flat'>Editar Usuário</button>"
     },
     {
-        "targets": [7],
+        "targets": [8],
         "data": null,
         "defaultContent": "<button class='btn_report btn-primary btn-flat'>Download Relatório</button>"
     },
@@ -648,7 +722,7 @@ $('#delete_buttonUser').click(function() {
         $.ajax({
           url: 'functions/sendMail.php',
           type: 'POST',
-          data: {email : data['email'], name : data['name']}
+          data: {id : data['id']}
         })
         .done(function(data){
           alert(data);
