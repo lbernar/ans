@@ -1,15 +1,16 @@
 <?php
+require "db-connect.php";
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 $id = $_POST['id'];
 $query = $db->prepare("SELECT name, email, password FROM users");
 $query->bindValue(':id', $id);
 $query->execute();
-$query = $query->fetchAll(PDO::FETCH_ASSOC);
+$query = $query->fetchAll(PDO::FETCH_ASSOC)[0];
 $to = $query['email'];
 $name = $query['name'];
 $password = $query['password'];
-$from = "mentecina@gmail.com";
+$from = "aval@acesseamente.com.br";
 $subject = "Link para questionário de análise neurossistêmica";
 $message = "Olá, $name \n Você está recebendo o link para responder o questionário de análise neurossistêmica.\n Para acessar clique no link abaixo para logar e responder o questionário.\n";
 $message .= "https://www.acesseamente.com.br/ans \n"; 
