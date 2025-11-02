@@ -326,14 +326,4 @@ Developed with ❤️ for neurosystemic analysis management.
 
 ---
 
-## 📞 Support
-
-If you have any questions or problems:
-
-1. Check the [Laravel documentation](https://laravel.com/docs)
-2. Open an [issue](https://github.com/your-username/ans-laravel/issues)
-3. Contact: contact@example.com
-
----
-
 ⭐ If this project was useful, consider giving it a star on GitHub!
